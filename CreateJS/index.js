@@ -1,5 +1,5 @@
 var stage, w, h, loader;
-var background, ground;
+var background, ground, upperground;
 
 function init() {
     stage = new createjs.Stage("demoCanvas");
@@ -25,19 +25,32 @@ function handleComplete() {
 
     var groundImg = loader.getResult("ground");
     ground = new createjs.Shape();
-    ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w + groundImg.width, groundImg.height);
     ground.tileW = groundImg.width;
+    ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w + groundImg.width, groundImg.height);
+    ground.x = shiftGroundX(ground, Math.random() * groundImg.width);
     ground.y = h - groundImg.height;
 
-    stage.addChild(background, ground);
+    upperground = ground.clone(true);
+    upperground.tileW = groundImg.width;
+    upperground.x = shiftGroundX(ground, Math.random() * groundImg.width);
+    upperground.y = groundImg.height;
+    upperground.scaleY = -1;
+
+    stage.addChild(background, ground, upperground);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
 }
 
+function shiftGroundX(ground, deltaX){
+    return (ground.x - deltaX) % ground.tileW;
+}
+
 function tick(event) {
-    var deltaS = event.delta / 1000;
-    ground.x = (ground.x - deltaS * 150) % ground.tileW;
+    let deltaS = event.delta / 1000;
+    let speed = 150;
+    ground.x = shiftGroundX(ground, deltaS*speed);
+    upperground.x = shiftGroundX(upperground, deltaS*speed);
     stage.update(event);
 }
 
