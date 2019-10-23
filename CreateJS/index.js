@@ -1,5 +1,5 @@
 var stage, w, h, loader;
-var background, ground, upperground;
+var background, ground, upperground, plane;
 
 var rocks = [];
 var rockSpawnTime = 1500;
@@ -19,7 +19,8 @@ function init() {
         { src: "background.png", id: "background" },
         { src: "groundGrass.png", id: "ground" },
         { src: "rockGrass.png", id: "rock"},
-        { src: "rockGrassDown.png", id: "rockDown"}
+        { src: "rockGrassDown.png", id: "rockDown"},
+        { src: "planes/planeRed1.png", id: "plane"}
     ]
 
     loader.addEventListener("complete", handleComplete);
@@ -45,7 +46,13 @@ function handleComplete() {
     upperground.y = groundImg.height;
     upperground.scaleY = -1;
 
-    stage.addChild(background, ground, upperground);
+    let planeImg = loader.getResult("plane");
+    plane = new createjs.Shape();
+    plane.graphics.beginBitmapFill(planeImg).drawRect(0, 0, planeImg.width, planeImg.height);
+    plane.y = h/2;
+    plane.x = planeImg.width;
+
+    stage.addChild(background, ground, upperground, plane);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
