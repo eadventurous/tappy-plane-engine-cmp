@@ -44,14 +44,14 @@ function handleComplete() {
     ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w + groundImg.width, groundImg.height);
     ground.x = shiftGroundX(ground, Math.random() * groundImg.width);
     ground.y = h - groundImg.height;
-    addRectCollider(ground, {y: h-groundImg.height, x: 0}, {y: h, x: w} );
+    addRectCollider(ground, {y: h-(groundImg.height/1.5), x: 0}, {y: h, x: w} );
 
     upperground = ground.clone(true);
     upperground.tileW = groundImg.width;
     upperground.x = shiftGroundX(ground, Math.random() * groundImg.width);
     upperground.y = groundImg.height;
     upperground.scaleY = -1;
-    addRectCollider(upperground, {y: 0, x: 0}, {y: groundImg.height, x: w} );
+    addRectCollider(upperground, {y: 0, x: 0}, {y: groundImg.height/1.5, x: w} );
 
     let planeImg = loader.getResult("plane");
     plane = new createjs.Shape();
@@ -78,6 +78,7 @@ function spawnRock(down){
     rock.x = w;
     rock.y = down ? 0 : h - rockImg.height;
     rock.width = rockImg.width;
+    addRectCollider(rock, {x: rock.x + rockImg.width/4, y: rock.y}, {x: rock.x + rockImg.width/4*3, y: rock.y + rockImg.height});
     rocks.push(rock);
     stage.addChildAt(rock, stage.getChildIndex(background)+1);
 }
@@ -101,6 +102,10 @@ function tick(event) {
     rocks.forEach(rock => {
         rock.x -= shift;
         if(rock.x <= -rock.width) stage.removeChild(rock);
+        rock.collider.update({x:-shift, y:0});
+        if(rock.collider.intersects(plane.collider)){ 
+            location.reload();
+        }
     });
     rocks = rocks.filter(rock => rock.x > -rock.width);
 
@@ -108,7 +113,7 @@ function tick(event) {
     plane.y += planeV;
     plane.collider.update({x: 0, y: planeV});
     if(plane.collider.intersects(ground.collider) || plane.collider.intersects(upperground.collider))
-        stage.removeAllChildren();
+        location.reload();
 
     stage.update(event);
 }
