@@ -7,6 +7,11 @@ var rockSpawnTimeVariation = 700;
 var rockSpawnCountdown = rockSpawnTime;
 var rockType = false;
 
+var planeV = 0;
+var planeA = 0.2;
+var planeM = 100;
+var speedBoost = -5;
+
 function init() {
     stage = new createjs.Stage("demoCanvas");
 
@@ -39,23 +44,27 @@ function handleComplete() {
     ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w + groundImg.width, groundImg.height);
     ground.x = shiftGroundX(ground, Math.random() * groundImg.width);
     ground.y = h - groundImg.height;
+    addRectCollider(ground, {y: h-groundImg.height, x: 0}, {y: h, x: w} );
 
     upperground = ground.clone(true);
     upperground.tileW = groundImg.width;
     upperground.x = shiftGroundX(ground, Math.random() * groundImg.width);
     upperground.y = groundImg.height;
     upperground.scaleY = -1;
+    addRectCollider(upperground, {y: 0, x: 0}, {y: groundImg.height, x: w} );
 
     let planeImg = loader.getResult("plane");
     plane = new createjs.Shape();
     plane.graphics.beginBitmapFill(planeImg).drawRect(0, 0, planeImg.width, planeImg.height);
     plane.y = h/2;
     plane.x = planeImg.width;
+    addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+planeImg.height, x: plane.x + planeImg.width} );
 
     stage.addChild(background, ground, upperground, plane);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
+    stage.addEventListener("click", () => planeV = speedBoost);
 }
 
 function shiftGroundX(ground, deltaX){
@@ -95,6 +104,31 @@ function tick(event) {
     });
     rocks = rocks.filter(rock => rock.x > -rock.width);
 
+    planeV += planeA;
+    plane.y += planeV;
+    plane.collider.update({x: 0, y: planeV});
+    if(plane.collider.intersects(ground.collider) || plane.collider.intersects(upperground.collider))
+        stage.removeAllChildren();
+
     stage.update(event);
 }
 
+function addRectCollider(shape, point1, point2){
+    shape.collider = {
+        point1: point1,
+        point2: point2,
+        update (shift) {
+            this.point1.x += shift.x;
+            this.point2.x += shift.x;
+            this.point1.y += shift.y;
+            this.point2.y += shift.y;
+        },
+
+        intersects (other){
+            return !(this.point1.x > other.point2.x 
+            || this.point2.x < other.point1.x
+            || this.point1.y > other.point2.y
+            || this.point2.y < other.point1.y)
+        }
+    }
+}
