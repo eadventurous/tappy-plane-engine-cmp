@@ -1,5 +1,5 @@
 var stage, w, h, loader;
-var background, ground, upperground, plane;
+var background, ground, upperground, plane, score;
 
 var rocks = [];
 var rockSpawnTime = 1500;
@@ -72,11 +72,12 @@ function handleComplete() {
     //plane.graphics.beginBitmapFill(planeImg).drawRect(0, 0, planeImg.width, planeImg.height);
     plane.y = h/2;
     plane.x = planeImg.width;
+    plane.width = planeImg.width;
     addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+planeImg.height, x: plane.x + planeImg.width} );
 
     var textSheet = loader.getResult("numbersFont");
     
-    var score = new createjs.BitmapText("TAPPY PLANE", textSheet);
+    score = new createjs.BitmapText("TAPPY PLANE", textSheet);
     score.x = w / 2 - score.getBounds().width / 2;
     score.y = h / 5;
     score.textAlign = "center";
@@ -86,8 +87,11 @@ function handleComplete() {
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
     stage.addEventListener("click", () => {
-        started = true;
-        planeV = speedBoost
+        if(!started) {
+            score.text = "0";
+            started = true;
+        }
+        planeV = speedBoost;
     });
     stage.update();
 }
@@ -106,10 +110,13 @@ function spawnRock(down){
     addRectCollider(rock, {x: rock.x + rockImg.width/9*4, y: rock.y}, {x: rock.x + rockImg.width/9*5, y: rock.y + rockImg.height});
     rocks.push(rock);
     stage.addChildAt(rock, stage.getChildIndex(background)+1);
+    rock.passed = false;
 }
 
 function tick(event) {
     if (!started) return;
+
+    score.x = w / 2 - score.getBounds().width / 2;
 
     let deltaS = event.delta / 1000;
 
@@ -132,6 +139,10 @@ function tick(event) {
         rock.collider.update({x:-shift, y:0});
         if(rock.collider.intersects(plane.collider)){ 
             location.reload();
+        }
+        if(!rock.passed && rock.x + rock.width/2 < plane.x + plane.width/2){
+            rock.passed = true;
+            score.text = (parseInt(score.text) + 1).toString();
         }
     });
     rocks = rocks.filter(rock => rock.x > -rock.width);
