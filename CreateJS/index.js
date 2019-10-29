@@ -89,7 +89,7 @@ function spawnRock(down){
     rock.x = w;
     rock.y = down ? 0 : h - rockImg.height;
     rock.width = rockImg.width;
-    addRectCollider(rock, {x: rock.x + rockImg.width/4, y: rock.y}, {x: rock.x + rockImg.width/4*3, y: rock.y + rockImg.height});
+    addRectCollider(rock, {x: rock.x + rockImg.width/9*4, y: rock.y}, {x: rock.x + rockImg.width/9*5, y: rock.y + rockImg.height});
     rocks.push(rock);
     stage.addChildAt(rock, stage.getChildIndex(background)+1);
 }
