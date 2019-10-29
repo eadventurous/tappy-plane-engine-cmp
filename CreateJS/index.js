@@ -29,7 +29,8 @@ function init() {
         { src: "rockGrassDown.png", id: "rockDown"},
         { src: "planes/planeRed1.png", id: "plane1"},
         { src: "planes/planeRed2.png", id: "plane2"},
-        { src: "planes/planeRed3.png", id: "plane3"}
+        { src: "planes/planeRed3.png", id: "plane3"},
+        { src: "numbers/data.json", id: "numbersFont", type: createjs.Types.SPRITESHEET}
     ]
 
     loader.addEventListener("complete", handleComplete);
@@ -73,7 +74,14 @@ function handleComplete() {
     plane.x = planeImg.width;
     addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+planeImg.height, x: plane.x + planeImg.width} );
 
-    stage.addChild(background, ground, upperground, plane);
+    var textSheet = loader.getResult("numbersFont");
+    
+    var score = new createjs.BitmapText("TAPPY PLANE", textSheet);
+    score.x = w / 2 - score.getBounds().width / 2;
+    score.y = h / 5;
+    score.textAlign = "center";
+
+    stage.addChild(background, ground, upperground, plane, score);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
