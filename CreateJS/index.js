@@ -12,6 +12,8 @@ var planeA = 0.2;
 var planeM = 100;
 var speedBoost = -5;
 
+var started = false;
+
 function init() {
     stage = new createjs.Stage("demoCanvas");
 
@@ -75,7 +77,11 @@ function handleComplete() {
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
-    stage.addEventListener("click", () => planeV = speedBoost);
+    stage.addEventListener("click", () => {
+        started = true;
+        planeV = speedBoost
+    });
+    stage.update();
 }
 
 function shiftGroundX(ground, deltaX){
@@ -95,6 +101,8 @@ function spawnRock(down){
 }
 
 function tick(event) {
+    if (!started) return;
+
     let deltaS = event.delta / 1000;
 
     rockSpawnCountdown -= event.delta;
