@@ -25,7 +25,9 @@ function init() {
         { src: "groundGrass.png", id: "ground" },
         { src: "rockGrass.png", id: "rock"},
         { src: "rockGrassDown.png", id: "rockDown"},
-        { src: "planes/planeRed1.png", id: "plane"}
+        { src: "planes/planeRed1.png", id: "plane1"},
+        { src: "planes/planeRed2.png", id: "plane2"},
+        { src: "planes/planeRed3.png", id: "plane3"}
     ]
 
     loader.addEventListener("complete", handleComplete);
@@ -53,9 +55,18 @@ function handleComplete() {
     upperground.scaleY = -1;
     addRectCollider(upperground, {y: 0, x: 0}, {y: groundImg.height/1.5, x: w} );
 
-    let planeImg = loader.getResult("plane");
-    plane = new createjs.Shape();
-    plane.graphics.beginBitmapFill(planeImg).drawRect(0, 0, planeImg.width, planeImg.height);
+    let planeImg = loader.getResult("plane1");
+
+    var data = {
+        images: [planeImg, loader.getResult("plane2"), loader.getResult("plane3")],
+        frames: {width:planeImg.width, height:planeImg.height},
+    };
+
+    let planeSpriteSheet = new createjs.SpriteSheet(data);
+    
+    plane = new createjs.Sprite(planeSpriteSheet);
+    plane.gotoAndPlay(0);
+    //plane.graphics.beginBitmapFill(planeImg).drawRect(0, 0, planeImg.width, planeImg.height);
     plane.y = h/2;
     plane.x = planeImg.width;
     addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+planeImg.height, x: plane.x + planeImg.width} );
