@@ -117,13 +117,45 @@
         "name": "..\\Assets\\PNG\\groundGrass.png",
         "smoothed": true,
         "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "../Assets/PNG/Planes/planeRed1.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "..\\Assets\\PNG\\Planes\\planeRed1.png",
+        "smoothed": true,
+        "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "../Assets/PNG/Planes/planeRed2.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "..\\Assets\\PNG\\Planes\\planeRed2.png",
+        "smoothed": true,
+        "userAdded": false
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "../Assets/PNG/Planes/planeRed3.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "..\\Assets\\PNG\\Planes\\planeRed3.png",
+        "smoothed": true,
+        "userAdded": false
       }
     ],
     "resourceFolders": []
   },
   "objects": [],
   "objectsGroups": [],
-  "variables": [],
+  "variables": [
+    {
+      "name": "plane_boost",
+      "value": "5"
+    }
+  ],
   "layouts": [
     {
       "b": 247,
@@ -161,6 +193,10 @@
         {
           "name": "speed",
           "value": "150"
+        },
+        {
+          "name": "plane_boost",
+          "value": "-300"
         }
       ],
       "instances": [
@@ -208,6 +244,21 @@
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "locked": false,
+          "name": "Plane",
+          "width": 0,
+          "x": 291,
+          "y": 198,
+          "zOrder": 3,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
         }
       ],
       "objects": [
@@ -234,9 +285,9 @@
               "name": "Physics2",
               "type": "Physics2::Physics2Behavior",
               "bodyType": "Kinematic",
-              "bullet": false,
+              "bullet": true,
               "fixedRotation": false,
-              "canSleep": true,
+              "canSleep": false,
               "shape": "Polygon",
               "shapeDimensionA": 0,
               "shapeDimensionB": 0,
@@ -285,6 +336,128 @@
               "gravityScale": 0,
               "layers": 1,
               "masks": 1
+            }
+          ]
+        },
+        {
+          "name": "Plane",
+          "tags": "",
+          "type": "Sprite",
+          "updateIfNotVisible": false,
+          "variables": [],
+          "behaviors": [
+            {
+              "name": "Physics2",
+              "type": "Physics2::Physics2Behavior",
+              "bodyType": "Dynamic",
+              "bullet": true,
+              "fixedRotation": false,
+              "canSleep": false,
+              "shape": "Polygon",
+              "shapeDimensionA": 0,
+              "shapeDimensionB": 0,
+              "shapeOffsetX": 0,
+              "shapeOffsetY": 0,
+              "polygonOrigin": "Center",
+              "vertices": [
+                {
+                  "x": 22,
+                  "y": 35
+                },
+                {
+                  "x": 36,
+                  "y": 22
+                },
+                {
+                  "x": 31,
+                  "y": -32
+                },
+                {
+                  "x": -18,
+                  "y": -33
+                },
+                {
+                  "x": -42,
+                  "y": -20
+                },
+                {
+                  "x": -21,
+                  "y": 23
+                }
+              ],
+              "density": 1,
+              "friction": 0,
+              "restitution": 0,
+              "linearDamping": 0,
+              "angularDamping": 0,
+              "gravityScale": 1,
+              "layers": 1,
+              "masks": 1
+            }
+          ],
+          "animations": [
+            {
+              "name": "Fly",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": true,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "..\\Assets\\PNG\\Planes\\planeRed1.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    },
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "..\\Assets\\PNG\\Planes\\planeRed2.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    },
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "..\\Assets\\PNG\\Planes\\planeRed3.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -351,6 +524,40 @@
                 "Ground",
                 "=",
                 "0"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "MouseButtonReleased"
+              },
+              "parameters": [
+                "",
+                "Left"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::LinearVelocityY"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "=",
+                "Variable(plane_boost)"
               ],
               "subInstructions": []
             }
