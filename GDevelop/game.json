@@ -153,6 +153,13 @@
         "name": "..\\Assets\\PNG\\rockGrass.png",
         "smoothed": true,
         "userAdded": true
+      },
+      {
+        "file": "../Assets/Font/kenvector_future.ttf",
+        "kind": "font",
+        "metadata": "",
+        "name": "..\\Assets\\Font\\kenvector_future.ttf",
+        "userAdded": true
       }
     ],
     "resourceFolders": []
@@ -226,6 +233,10 @@
         {
           "name": "started",
           "value": "0"
+        },
+        {
+          "name": "score",
+          "value": "0"
         }
       ],
       "instances": [
@@ -285,6 +296,21 @@
           "x": 85,
           "y": 200,
           "zOrder": 3,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 50,
+          "layer": "",
+          "locked": false,
+          "name": "Title",
+          "width": 400,
+          "x": 207,
+          "y": 121,
+          "zOrder": 4,
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
@@ -569,6 +595,25 @@
               ]
             }
           ]
+        },
+        {
+          "bold": false,
+          "italic": false,
+          "name": "Title",
+          "smoothed": true,
+          "tags": "",
+          "type": "TextObject::Text",
+          "underlined": false,
+          "variables": [],
+          "behaviors": [],
+          "string": "TAPPY PLANE",
+          "font": "..\\Assets\\Font\\kenvector_future.ttf",
+          "characterSize": 42,
+          "color": {
+            "b": 222,
+            "g": 158,
+            "r": 82
+          }
         }
       ],
       "events": [
@@ -668,6 +713,18 @@
                 "Physics2",
                 "=",
                 "-Variable(speed)"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "TextObject::String"
+              },
+              "parameters": [
+                "Title",
+                "=",
+                "LargeNumberToString(Variable(score))"
               ],
               "subInstructions": []
             }
@@ -963,6 +1020,14 @@
             }
           ],
           "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [],
+          "events": []
         }
       ],
       "layers": [
@@ -1069,9 +1134,105 @@
                 }
               ],
               "objectGroups": []
+            },
+            {
+              "description": "",
+              "fullName": "",
+              "functionType": "Action",
+              "name": "doStepPostEvents",
+              "sentence": "",
+              "events": [
+                {
+                  "disabled": false,
+                  "folded": false,
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "PosX"
+                      },
+                      "parameters": [
+                        "Object",
+                        "<=",
+                        "122-50"
+                      ],
+                      "subInstructions": []
+                    },
+                    {
+                      "type": {
+                        "inverted": true,
+                        "value": "NewExtension::RockBehavior::PropertyScored"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior"
+                      ],
+                      "subInstructions": []
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "ModVarScene"
+                      },
+                      "parameters": [
+                        "score",
+                        "+",
+                        "1"
+                      ],
+                      "subInstructions": []
+                    },
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "NewExtension::RockBehavior::SetPropertyScored"
+                      },
+                      "parameters": [
+                        "Object",
+                        "Behavior",
+                        "yes"
+                      ],
+                      "subInstructions": []
+                    }
+                  ],
+                  "events": []
+                }
+              ],
+              "parameters": [
+                {
+                  "codeOnly": false,
+                  "defaultValue": "",
+                  "description": "Object",
+                  "name": "Object",
+                  "optional": false,
+                  "supplementaryInformation": "",
+                  "type": "object"
+                },
+                {
+                  "codeOnly": false,
+                  "defaultValue": "",
+                  "description": "Behavior",
+                  "name": "Behavior",
+                  "optional": false,
+                  "supplementaryInformation": "NewExtension::RockBehavior",
+                  "type": "behavior"
+                }
+              ],
+              "objectGroups": []
             }
           ],
-          "propertyDescriptors": []
+          "propertyDescriptors": [
+            {
+              "value": "Plane",
+              "type": "Boolean",
+              "label": "",
+              "extraInformation": [],
+              "hidden": false,
+              "name": "Scored"
+            }
+          ]
         }
       ]
     }
