@@ -222,6 +222,10 @@
         {
           "name": "spawn_time_variation",
           "value": "0.7"
+        },
+        {
+          "name": "started",
+          "value": "0"
         }
       ],
       "instances": [
@@ -588,25 +592,35 @@
             {
               "type": {
                 "inverted": false,
-                "value": "Physics2::LinearVelocityX"
-              },
-              "parameters": [
-                "Ground",
-                "Physics2",
-                "=",
-                "-Variable(speed)"
-              ],
-              "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
                 "value": "ModVarScene"
               },
               "parameters": [
                 "spawn_time",
                 "=",
                 "Variable(spawn_period)+Random(Variable(spawn_time_variation))"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::GravityScale"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "=",
+                "0"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "PauseAnimation"
+              },
+              "parameters": [
+                "Plane"
               ],
               "subInstructions": []
             }
@@ -617,7 +631,20 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "started",
+                ">",
+                "0"
+              ],
+              "subInstructions": []
+            }
+          ],
           "actions": [
             {
               "type": {
@@ -628,6 +655,19 @@
                 "spawn_time",
                 "-",
                 "TimeDelta()"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::LinearVelocityX"
+              },
+              "parameters": [
+                "Ground",
+                "Physics2",
+                "=",
+                "-Variable(speed)"
               ],
               "subInstructions": []
             }
@@ -657,6 +697,18 @@
               "parameters": [
                 "spawn_time",
                 "<=",
+                "0"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "started",
+                ">",
                 "0"
               ],
               "subInstructions": []
@@ -745,6 +797,18 @@
                 "-Ground.Width()/2"
               ],
               "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "started",
+                ">",
+                "0"
+              ],
+              "subInstructions": []
             }
           ],
           "actions": [
@@ -791,6 +855,41 @@
                 "Physics2",
                 "=",
                 "Variable(plane_boost)"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::GravityScale"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "=",
+                "1"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "started",
+                "=",
+                "1"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "PlayAnimation"
+              },
+              "parameters": [
+                "Plane"
               ],
               "subInstructions": []
             }
