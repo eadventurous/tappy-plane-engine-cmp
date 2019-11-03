@@ -314,6 +314,21 @@
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "locked": false,
+          "name": "Score",
+          "width": 0,
+          "x": 396,
+          "y": 110,
+          "zOrder": 5,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
         }
       ],
       "objects": [
@@ -614,6 +629,25 @@
             "g": 158,
             "r": 82
           }
+        },
+        {
+          "bold": false,
+          "italic": false,
+          "name": "Score",
+          "smoothed": true,
+          "tags": "",
+          "type": "TextObject::Text",
+          "underlined": false,
+          "variables": [],
+          "behaviors": [],
+          "string": "0",
+          "font": "..\\Assets\\Font\\kenvector_future.ttf",
+          "characterSize": 62,
+          "color": {
+            "b": 222,
+            "g": 158,
+            "r": 82
+          }
         }
       ],
       "events": [
@@ -668,6 +702,16 @@
                 "Plane"
               ],
               "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Cache"
+              },
+              "parameters": [
+                "Score"
+              ],
+              "subInstructions": []
             }
           ],
           "events": []
@@ -706,23 +750,10 @@
             {
               "type": {
                 "inverted": false,
-                "value": "Physics2::LinearVelocityX"
-              },
-              "parameters": [
-                "Ground",
-                "Physics2",
-                "=",
-                "-Variable(speed)"
-              ],
-              "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
                 "value": "TextObject::String"
               },
               "parameters": [
-                "Title",
+                "Score",
                 "=",
                 "LargeNumberToString(Variable(score))"
               ],
@@ -899,6 +930,18 @@
                 "Left"
               ],
               "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "started",
+                ">",
+                "0"
+              ],
+              "subInstructions": []
             }
           ],
           "actions": [
@@ -912,41 +955,6 @@
                 "Physics2",
                 "=",
                 "Variable(plane_boost)"
-              ],
-              "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
-                "value": "Physics2::GravityScale"
-              },
-              "parameters": [
-                "Plane",
-                "Physics2",
-                "=",
-                "1"
-              ],
-              "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
-                "value": "ModVarScene"
-              },
-              "parameters": [
-                "started",
-                "=",
-                "1"
-              ],
-              "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
-                "value": "PlayAnimation"
-              },
-              "parameters": [
-                "Plane"
               ],
               "subInstructions": []
             }
@@ -1025,8 +1033,115 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
-          "actions": [],
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "MouseButtonReleased"
+              },
+              "parameters": [
+                "",
+                "Left"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "started",
+                ">",
+                "0"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::GravityScale"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "=",
+                "1"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "started",
+                "=",
+                "1"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "PlayAnimation"
+              },
+              "parameters": [
+                "Plane"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Montre"
+              },
+              "parameters": [
+                "Score",
+                ""
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::LinearVelocityX"
+              },
+              "parameters": [
+                "Ground",
+                "Physics2",
+                "=",
+                "-Variable(speed)"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Cache"
+              },
+              "parameters": [
+                "Title"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::LinearVelocityY"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "=",
+                "Variable(plane_boost)"
+              ],
+              "subInstructions": []
+            }
+          ],
           "events": []
         }
       ],
