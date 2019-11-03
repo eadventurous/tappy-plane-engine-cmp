@@ -796,6 +796,74 @@
             }
           ],
           "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::Collision"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "Rock",
+                ""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "PushScene"
+              },
+              "parameters": [
+                "",
+                "\"Main\""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::Collision"
+              },
+              "parameters": [
+                "Plane",
+                "Physics2",
+                "Ground",
+                ""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "PushScene"
+              },
+              "parameters": [
+                "",
+                "\"Main\""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
         }
       ],
       "layers": [
