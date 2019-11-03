@@ -144,6 +144,15 @@
         "name": "..\\Assets\\PNG\\Planes\\planeRed3.png",
         "smoothed": true,
         "userAdded": false
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "../Assets/PNG/rockGrass.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "..\\Assets\\PNG\\rockGrass.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ],
     "resourceFolders": []
@@ -197,6 +206,22 @@
         {
           "name": "plane_boost",
           "value": "-300"
+        },
+        {
+          "name": "ground",
+          "value": "0"
+        },
+        {
+          "name": "spawn_time",
+          "value": "0"
+        },
+        {
+          "name": "spawn_period",
+          "value": "1.5"
+        },
+        {
+          "name": "spawn_time_variation",
+          "value": "0.7"
         }
       ],
       "instances": [
@@ -253,8 +278,8 @@
           "locked": false,
           "name": "Plane",
           "width": 0,
-          "x": 291,
-          "y": 198,
+          "x": 85,
+          "y": 200,
           "zOrder": 3,
           "numberProperties": [],
           "stringProperties": [],
@@ -288,11 +313,11 @@
               "bullet": true,
               "fixedRotation": false,
               "canSleep": false,
-              "shape": "Polygon",
+              "shape": "Box",
               "shapeDimensionA": 0,
               "shapeDimensionB": 0,
               "shapeOffsetX": 0,
-              "shapeOffsetY": 0,
+              "shapeOffsetY": 30,
               "polygonOrigin": "Center",
               "vertices": [
                 {
@@ -351,7 +376,7 @@
               "type": "Physics2::Physics2Behavior",
               "bodyType": "Dynamic",
               "bullet": true,
-              "fixedRotation": false,
+              "fixedRotation": true,
               "canSleep": false,
               "shape": "Polygon",
               "shapeDimensionA": 0,
@@ -460,6 +485,86 @@
               ]
             }
           ]
+        },
+        {
+          "name": "Rock",
+          "tags": "",
+          "type": "Sprite",
+          "updateIfNotVisible": false,
+          "variables": [],
+          "behaviors": [
+            {
+              "name": "Physics2",
+              "type": "Physics2::Physics2Behavior",
+              "bodyType": "Kinematic",
+              "bullet": false,
+              "fixedRotation": false,
+              "canSleep": true,
+              "shape": "Polygon",
+              "shapeDimensionA": 0,
+              "shapeDimensionB": 0,
+              "shapeOffsetX": 0,
+              "shapeOffsetY": 0,
+              "polygonOrigin": "Center",
+              "vertices": [
+                {
+                  "x": -54,
+                  "y": 119
+                },
+                {
+                  "x": 53,
+                  "y": 118
+                },
+                {
+                  "x": 11,
+                  "y": -117
+                }
+              ],
+              "density": 1,
+              "friction": 0.3,
+              "restitution": 0.1,
+              "linearDamping": 0.1,
+              "angularDamping": 0.1,
+              "gravityScale": 1,
+              "layers": 1,
+              "masks": 1
+            },
+            {
+              "name": "RockBehavior",
+              "type": "NewExtension::RockBehavior"
+            }
+          ],
+          "animations": [
+            {
+              "name": "",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "..\\Assets\\PNG\\rockGrass.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "events": [
@@ -490,6 +595,122 @@
                 "Physics2",
                 "=",
                 "-Variable(speed)"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "spawn_time",
+                "=",
+                "Variable(spawn_period)+Random(Variable(spawn_time_variation))"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "spawn_time",
+                "-",
+                "TimeDelta()"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": true,
+                "value": "DepartScene"
+              },
+              "parameters": [
+                ""
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "VarScene"
+              },
+              "parameters": [
+                "spawn_time",
+                "<=",
+                "0"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "Create"
+              },
+              "parameters": [
+                "",
+                "Rock",
+                "799",
+                "Variable(ground)*(480-Object.Height())",
+                ""
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ChangePlan"
+              },
+              "parameters": [
+                "Rock",
+                "=",
+                "2"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Physics2::LinearVelocityX"
+              },
+              "parameters": [
+                "Rock",
+                "Physics2",
+                "=",
+                "-Variable(speed)"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "spawn_time",
+                "=",
+                "Variable(spawn_period)+RandomFloat(Variable(spawn_time_variation))"
               ],
               "subInstructions": []
             }
@@ -592,12 +813,90 @@
           "gravityY": 9.8,
           "scaleX": 100,
           "scaleY": 100
+        },
+        {
+          "name": "RockBehavior",
+          "type": "NewExtension::RockBehavior"
         }
       ]
     }
   ],
   "externalEvents": [],
-  "eventsFunctionsExtensions": [],
+  "eventsFunctionsExtensions": [
+    {
+      "author": "",
+      "description": "",
+      "extensionNamespace": "",
+      "fullName": "",
+      "name": "NewExtension",
+      "shortDescription": "",
+      "tags": "",
+      "version": "",
+      "eventsFunctions": [],
+      "eventsBasedBehaviors": [
+        {
+          "description": "",
+          "fullName": "",
+          "name": "RockBehavior",
+          "objectType": "",
+          "eventsFunctions": [
+            {
+              "description": "",
+              "fullName": "",
+              "functionType": "Action",
+              "name": "onCreated",
+              "sentence": "",
+              "events": [
+                {
+                  "disabled": false,
+                  "folded": false,
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [],
+                  "actions": [
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "SetAngle"
+                      },
+                      "parameters": [
+                        "Object",
+                        "=",
+                        "(1-Variable(ground))*180"
+                      ],
+                      "subInstructions": []
+                    }
+                  ],
+                  "events": []
+                }
+              ],
+              "parameters": [
+                {
+                  "codeOnly": false,
+                  "defaultValue": "",
+                  "description": "Object",
+                  "name": "Object",
+                  "optional": false,
+                  "supplementaryInformation": "",
+                  "type": "object"
+                },
+                {
+                  "codeOnly": false,
+                  "defaultValue": "",
+                  "description": "Behavior",
+                  "name": "Behavior",
+                  "optional": false,
+                  "supplementaryInformation": "NewExtension::RockBehavior",
+                  "type": "behavior"
+                }
+              ],
+              "objectGroups": []
+            }
+          ],
+          "propertyDescriptors": []
+        }
+      ]
+    }
+  ],
   "externalLayouts": [],
   "externalSourceFiles": []
 }
