@@ -672,7 +672,7 @@
                 "",
                 "Rock",
                 "799",
-                "Variable(ground)*(480-Object.Height())",
+                "240*Variable(ground)",
                 ""
               ],
               "subInstructions": []
@@ -711,6 +711,18 @@
                 "spawn_time",
                 "=",
                 "Variable(spawn_period)+RandomFloat(Variable(spawn_time_variation))"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarScene"
+              },
+              "parameters": [
+                "ground",
+                "=",
+                "1-Variable(ground)"
               ],
               "subInstructions": []
             }
