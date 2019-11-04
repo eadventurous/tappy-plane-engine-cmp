@@ -27,14 +27,14 @@ function init() {
         { src: "groundGrass.png", id: "ground" },
         { src: "rockGrass.png", id: "rock"},
         { src: "rockGrassDown.png", id: "rockDown"},
-        { src: "planes/planeRed1.png", id: "plane1"},
-        { src: "planes/planeRed2.png", id: "plane2"},
-        { src: "planes/planeRed3.png", id: "plane3"},
-        { src: "numbers/data.json", id: "numbersFont", type: createjs.Types.SPRITESHEET}
+        { src: "Planes/planeRed1.png", id: "plane1"},
+        { src: "Planes/planeRed2.png", id: "plane2"},
+        { src: "Planes/planeRed3.png", id: "plane3"},
+        { src: "Numbers/data.json", id: "numbersFont", type: createjs.Types.SPRITESHEET}
     ]
 
     loader.addEventListener("complete", handleComplete);
-    loader.loadManifest(manifest, true, "../assets/png/");
+    loader.loadManifest(manifest, true, "../Assets/PNG/");
     
 }
 

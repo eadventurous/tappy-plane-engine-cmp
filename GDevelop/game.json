@@ -15,7 +15,7 @@
     "packageName": "com.example.gamename",
     "projectFile": "D:\\Projects\\tappy-plane-engine-cmp\\GDevelop\\game.json",
     "scaleMode": "linear",
-    "sizeOnStartupMode": "adaptWidth",
+    "sizeOnStartupMode": "",
     "useExternalSourceFiles": false,
     "version": "1.0.0",
     "winExecutableFilename": "",
