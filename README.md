@@ -7,6 +7,7 @@ The purpose of the project is to compare features, performance and build sizes o
 ## Detailed Comparison
 
 [Comparison Table](https://docs.google.com/spreadsheets/d/1W30FdImkqsa17l4YUpKwYhSRcAETv9_xxv08b0LFRGY/edit?usp=sharing)
+[Comments on engines](https://docs.google.com/document/d/1c_0vt13B78yYAp2FsCcT8ybn3gK0bErY7afc3zGzUNQ/edit?usp=sharing)
 
 ## How to run examples
 
