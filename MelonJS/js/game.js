@@ -5,7 +5,8 @@ var game = {
     // an object where to store game information
     data : {
         // score
-        score : 0
+        score : 0,
+        jumpVel : 10,
     },
 
 
@@ -29,8 +30,13 @@ var game = {
     "loaded" : function () {
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
+        // enable the keyboard
+        me.input.bindKey(me.input.KEY.SPACE, "jump", true);
+        // map the left button click on the X key (default if the button is not specified)
+        me.input.bindPointer(me.input.KEY.SPACE);
+
         // add our player entity in the entity pool
-        me.pool.register("planeObj", me.Entity);
+        me.pool.register("planeObj", game.PlaneEntity);
         me.pool.register("groundObj", me.Entity);
         me.pool.register("rockObj", me.Entity);
 
