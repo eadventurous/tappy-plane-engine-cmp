@@ -30,7 +30,9 @@ var game = {
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
         // add our player entity in the entity pool
-        //me.pool.register("planeObj", game.PlayerEntity);
+        me.pool.register("planeObj", me.Entity);
+        me.pool.register("groundObj", me.Entity);
+        me.pool.register("rockObj", me.Entity);
 
         // Start the game.
         me.state.change(me.state.PLAY);
