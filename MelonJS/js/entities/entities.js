@@ -46,3 +46,71 @@ game.PlaneEntity = me.Entity.extend({
         return true;
     }
 });
+
+game.GroundEntity = me.Entity.extend({
+
+    /**
+     * constructor
+     */
+    init:function (x, y) {
+
+        var groundImg = me.loader.getImage("groundGrass");
+
+        var groundSettings = {
+            "image": groundImg,
+            "width": groundImg.width,
+            "height": groundImg.height,
+            "shapes": [],
+        }
+
+        // call the constructor
+        this._super(me.Entity, 'init', [x, y , groundSettings]);
+
+        this.width = groundImg.width;
+
+        this.body.gravity.y = 0;
+
+        this.body.maxVel.y = 0;
+
+        this.body.addShapesFromJSON(me.loader.getJSON("colliders"), "groundGrass");
+
+    },
+
+    /**
+     * update the entity
+     */
+    update: function (time) {
+        this.body.update(time);
+        return (this._super(me.Entity, 'update', [time]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+    },
+});
+
+
+game.DoubleGroundEntity = me.Container.extend({
+
+    /**
+     * constructor
+     */
+    init:function (x, y) {
+        // call the constructor
+        this._super(me.Container, 'init', [x, y]);
+
+        //this.body.vel.x = -game.data.flightVel;
+    },
+
+
+    addChildren: function(){
+        let ground1 = me.pool.pull("groundObj", 0, 0);
+        this.addChild(ground1);
+        this.addChild(me.pool.pull("groundObj", 0, ground1.width));
+        this.updateChildBounds();
+    },
+
+    /**
+     * update the entity
+     */
+    update: function (time) {
+        this._super(me.Container, "update", [time]);
+        this.updateChildBounds();
+    },
+});

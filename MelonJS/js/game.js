@@ -7,6 +7,7 @@ var game = {
         // score
         score : 0,
         jumpVel : 10,
+        flightVel: 2,
     },
 
 
@@ -37,8 +38,8 @@ var game = {
 
         // add our player entity in the entity pool
         me.pool.register("planeObj", game.PlaneEntity);
-        me.pool.register("groundObj", me.Entity);
-        me.pool.register("rockObj", me.Entity);
+        me.pool.register("groundObj", game.GroundEntity, true);
+        me.pool.register("doubleGroundObj", game.DoubleGroundEntity);
 
         // Start the game.
         me.state.change(me.state.PLAY);

@@ -12,18 +12,6 @@
   </data>
  </layer>
  <objectgroup id="5" name="Object Layer 1">
-  <object id="1" name="groundObj" x="1" y="445">
-   <properties>
-    <property name="image" value="groundGrass"/>
-   </properties>
-   <polygon points="0,0 31,-3 88,9 156,-27 247,-32 308,-10 348,-8 371,-22 431,-23 469,7 506,8 532,17 569,18 597,-7 637,-15 654,-32 742,-38 757,-16 796,-2 807,2 806,33 0,35"/>
-  </object>
-  <object id="3" name="rockObj" x="-2" y="479">
-   <properties>
-    <property name="image" value="rockGrass"/>
-   </properties>
-   <polygon points="0,0 33,-111 39,-115 64,-237 69,-239 81,-136 86,-136 96,-63 100,-60 109,-3"/>
-  </object>
   <object id="6" name="planeObj" x="170" y="217">
    <properties>
     <property name="frameheight" value="73"/>

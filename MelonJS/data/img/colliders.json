@@ -1,0 +1,45 @@
+{ 
+    
+    "groundGrass": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   96, 45  ,  1, 73  ,  3, 37  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   744, 7  ,  806, 44  ,  807, 71  ,  576, 53  ,  648.8710327148438, 6.226539611816406  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   476, 48  ,  325, 30  ,  436, 14  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   251, 6  ,  325, 30  ,  96, 45  ,  158, 11  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   476, 48  ,  1, 73  ,  96, 45  ,  325, 30  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   476, 48  ,  807, 71  ,  1, 73  ]
+        }
+    ]
+    , 
+    "rockGrass": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   -2, 240  ,  65, 1  ,  111, 239  ]
+        }
+    ]
+}
