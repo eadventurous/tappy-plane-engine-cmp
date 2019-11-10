@@ -11,7 +11,9 @@ game.PlaneEntity = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y , settings]);
 
         this.body.vel = new me.Vector2d(0,0);
-        this.body.mass = 0.5;
+        this.body.mass = 0.4;
+        this.body.collisionType = me.collision.types.PLAYER_OBJECT;
+        this.body.setCollisionMask(me.collision.types.WORLD_SHAPE);
     },
 
     /**
@@ -67,8 +69,10 @@ game.GroundEntity = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y , groundSettings]);
 
         this.body.gravity.y = 0;
-
         this.body.maxVel.y = 0;
+
+        this.body.collisionType = me.collision.types.WORLD_SHAPE;
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
 
         if(upper){
             this.body.addShapesFromJSON(me.loader.getJSON("colliderGroundUpper"), "groundGrassUpper");
@@ -86,6 +90,55 @@ game.GroundEntity = me.Entity.extend({
      */
     update: function (time) {
         this.body.update(time);
+        return (this._super(me.Entity, 'update', [time]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+    },
+});
+
+
+game.RockEntity = me.Entity.extend({
+
+    /**
+     * constructor
+     */
+    init:function (upper) {
+
+        var rockImg = me.loader.getImage("rockGrass" + (upper ? "Down" : ""));
+
+        var groundSettings = {
+            "image": rockImg,
+            "width": rockImg.width,
+            "height": rockImg.height,
+            "shapes": [],
+        }
+
+        // call the constructor
+        this._super(me.Entity, 'init', [me.game.viewport.width - 3,
+             upper ? 0 : me.game.viewport.height - rockImg.height, groundSettings]);
+
+        this.body.gravity.y = 0;
+
+        this.body.maxVel.y = 0;
+
+        this.body.collisionType = me.collision.types.WORLD_SHAPE;
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
+
+        if(upper){
+            this.body.addShapesFromJSON(me.loader.getJSON("colliderRockUpper"), "rockGrassDown");
+        }
+        else{
+            this.body.addShapesFromJSON(me.loader.getJSON("colliders"), "rockGrass");
+        }
+
+        this.renderable.alwaysUpdate = true;
+
+    },
+
+    /**
+     * update the entity
+     */
+    update: function (time) {
+        this.body.update(time);
+        this.pos.x -= time*game.data.flightVel;
         return (this._super(me.Entity, 'update', [time]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 });

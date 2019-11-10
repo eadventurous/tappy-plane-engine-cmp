@@ -6,8 +6,10 @@ var game = {
     data : {
         // score
         score : 0,
-        jumpVel : 10,
-        flightVel: 0.1,
+        jumpVel : 7,
+        flightVel: 0.15,
+        rockSpawnTime: 1500,
+        rockSpawnFluct: 700,
     },
 
 
@@ -40,6 +42,7 @@ var game = {
         me.pool.register("planeObj", game.PlaneEntity);
         me.pool.register("groundObj", game.GroundEntity, true);
         me.pool.register("doubleGroundObj", game.DoubleGroundEntity, true);
+        me.pool.register("rockObj", game.RockEntity, true);
 
         // Start the game.
         me.state.change(me.state.PLAY);

@@ -21,6 +21,17 @@ game.PlayScreen = me.ScreenObject.extend({
         let upperGround = me.pool.pull("doubleGroundObj");
         upperGround.setup(true);
         me.game.world.addChild(upperGround);
+
+        game.data.upperRock = false;
+
+        let spawnRock = () => {
+            let rock = me.pool.pull("rockObj", game.data.upperRock);
+            me.game.world.addChild(rock);
+            game.data.upperRock = !game.data.upperRock;
+            me.timer.setTimeout(spawnRock, game.data.rockSpawnTime + Math.random() * game.data.rockSpawnFluct);
+        }
+
+        spawnRock();
     },
 
     /**
