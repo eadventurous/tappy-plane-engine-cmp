@@ -110,6 +110,9 @@ game.DoubleGroundEntity = me.Container.extend({
         let ground2 = me.pool.pull("groundObj", this.ground1._width, 0, upper);
         this.addChild(ground2);
 
+        let ground3 = me.pool.pull("groundObj", this.ground1._width*2, 0, upper);
+        this.addChild(ground3);
+
         this.updateChildBounds();
 
         this.stickToGround(!upper);
@@ -128,6 +131,11 @@ game.DoubleGroundEntity = me.Container.extend({
     update: function (time) {
         this._super(me.Container, "update", [time]);
         this.pos.x -= time*game.data.flightVel;
+        this.forEach(function(child){
+            if(child.pos.x + this.pos.x < -this.ground1._width + 1){
+                child.pos.x += this.ground1._width*3;
+            }
+        });
         this.updateChildBounds();
     },
 });
