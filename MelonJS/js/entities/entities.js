@@ -44,8 +44,10 @@ game.PlaneEntity = me.Entity.extend({
      * (called when colliding with other objects)
      */
     onCollision : function (response, other) {
-        // Make all other objects solid
-        return true;
+        if(!game.data.reloadRequest){
+            game.data.reloadRequest = true;
+            location.reload();
+        }
     }
 });
 

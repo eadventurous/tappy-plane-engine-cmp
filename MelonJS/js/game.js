@@ -31,7 +31,8 @@ var game = {
 
     // Run on game resources loaded.
     "loaded" : function () {
-        me.state.set(me.state.PLAY, new game.PlayScreen());
+        this.playScreen = new game.PlayScreen();
+        me.state.set(me.state.PLAY, this.playScreen);
 
         // enable the keyboard
         me.input.bindKey(me.input.KEY.SPACE, "jump", true);

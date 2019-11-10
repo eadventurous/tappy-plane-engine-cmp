@@ -14,17 +14,19 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
 
-        let lowerGround = me.pool.pull("doubleGroundObj");
-        lowerGround.setup(false);
-        me.game.world.addChild(lowerGround);
+        this.lowerGround = me.pool.pull("doubleGroundObj");
+        this.lowerGround.setup(false);
+        me.game.world.addChild(this.lowerGround);
 
-        let upperGround = me.pool.pull("doubleGroundObj");
-        upperGround.setup(true);
-        me.game.world.addChild(upperGround);
+        this.upperGround = me.pool.pull("doubleGroundObj");
+        this.upperGround.setup(true);
+        me.game.world.addChild(this.upperGround);
 
         game.data.upperRock = false;
+        this.spawn = true;
 
         let spawnRock = () => {
+            if(!this.spawn) return;
             let rock = me.pool.pull("rockObj", game.data.upperRock);
             me.game.world.addChild(rock, 5);
             game.data.upperRock = !game.data.upperRock;
@@ -40,5 +42,8 @@ game.PlayScreen = me.ScreenObject.extend({
     onDestroyEvent: function() {
         // remove the HUD from the game world
         me.game.world.removeChild(this.HUD);
+        me.game.world.removeChild(this.upperGround);
+        me.game.world.removeChild(this.lowerGround);
+        this.spawn = false;
     }
 });
