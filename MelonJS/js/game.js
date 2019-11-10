@@ -39,7 +39,7 @@ var game = {
         // add our player entity in the entity pool
         me.pool.register("planeObj", game.PlaneEntity);
         me.pool.register("groundObj", game.GroundEntity, true);
-        me.pool.register("doubleGroundObj", game.DoubleGroundEntity);
+        me.pool.register("doubleGroundObj", game.DoubleGroundEntity, true);
 
         // Start the game.
         me.state.change(me.state.PLAY);

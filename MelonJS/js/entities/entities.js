@@ -52,9 +52,9 @@ game.GroundEntity = me.Entity.extend({
     /**
      * constructor
      */
-    init:function (x, y) {
+    init:function (x, y, upper) {
 
-        var groundImg = me.loader.getImage("groundGrass");
+        var groundImg = me.loader.getImage("groundGrass" + (upper ? "Upper" : ""));
 
         var groundSettings = {
             "image": groundImg,
@@ -70,7 +70,12 @@ game.GroundEntity = me.Entity.extend({
 
         this.body.maxVel.y = 0;
 
-        this.body.addShapesFromJSON(me.loader.getJSON("colliders"), "groundGrass");
+        if(upper){
+            this.body.addShapesFromJSON(me.loader.getJSON("colliderGroundUpper"), "groundGrassUpper");
+        }
+        else{
+            this.body.addShapesFromJSON(me.loader.getJSON("colliders"), "groundGrass");
+        }
 
         this.renderable.alwaysUpdate = true;
 
@@ -91,19 +96,29 @@ game.DoubleGroundEntity = me.Container.extend({
     /**
      * constructor
      */
-    init:function (x, y) {
+    init:function () {
         // call the constructor
-        this._super(me.Container, 'init', [x, y]);
+        this._super(me.Container, 'init');
     },
 
 
-    addChildren: function(){
-        let ground1 = me.pool.pull("groundObj", 0, 0);
-        this.addChild(ground1);
+    setup(upper){
 
-        let ground2 = me.pool.pull("groundObj", ground1._width, 0);
+        this.ground1 = me.pool.pull("groundObj", 0, 0, upper);
+        this.addChild(this.ground1);
+
+        let ground2 = me.pool.pull("groundObj", this.ground1._width, 0, upper);
         this.addChild(ground2);
 
+        this.updateChildBounds();
+
+        this.stickToGround(!upper);
+    },
+
+    stickToGround(lower){
+        if(lower){
+            this.pos.y = me.game.viewport.height - this.ground1._height;
+        }
         this.updateChildBounds();
     },
 

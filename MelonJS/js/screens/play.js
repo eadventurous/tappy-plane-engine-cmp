@@ -14,9 +14,13 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
 
-        let lowerGround = me.pool.pull("doubleGroundObj", 0, 420);
-        lowerGround.addChildren();
+        let lowerGround = me.pool.pull("doubleGroundObj");
+        lowerGround.setup(false);
         me.game.world.addChild(lowerGround);
+
+        let upperGround = me.pool.pull("doubleGroundObj");
+        upperGround.setup(true);
+        me.game.world.addChild(upperGround);
     },
 
     /**
