@@ -66,13 +66,13 @@ game.GroundEntity = me.Entity.extend({
         // call the constructor
         this._super(me.Entity, 'init', [x, y , groundSettings]);
 
-        this.width = groundImg.width;
-
         this.body.gravity.y = 0;
 
         this.body.maxVel.y = 0;
 
         this.body.addShapesFromJSON(me.loader.getJSON("colliders"), "groundGrass");
+
+        this.renderable.alwaysUpdate = true;
 
     },
 
@@ -94,15 +94,16 @@ game.DoubleGroundEntity = me.Container.extend({
     init:function (x, y) {
         // call the constructor
         this._super(me.Container, 'init', [x, y]);
-
-        //this.body.vel.x = -game.data.flightVel;
     },
 
 
     addChildren: function(){
         let ground1 = me.pool.pull("groundObj", 0, 0);
         this.addChild(ground1);
-        this.addChild(me.pool.pull("groundObj", 0, ground1.width));
+
+        let ground2 = me.pool.pull("groundObj", ground1._width, 0);
+        this.addChild(ground2);
+
         this.updateChildBounds();
     },
 
@@ -111,6 +112,7 @@ game.DoubleGroundEntity = me.Container.extend({
      */
     update: function (time) {
         this._super(me.Container, "update", [time]);
+        this.pos.x -= time*game.data.flightVel;
         this.updateChildBounds();
     },
 });

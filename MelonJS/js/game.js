@@ -7,7 +7,7 @@ var game = {
         // score
         score : 0,
         jumpVel : 10,
-        flightVel: 2,
+        flightVel: 0.1,
     },
 
 
