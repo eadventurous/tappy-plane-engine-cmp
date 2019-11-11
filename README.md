@@ -16,7 +16,11 @@ The purpose of the project is to compare features, performance and build sizes o
 ```bash
 $ git clone https://github.com/eadventurous/tappy-plane-engine-cmp.git
 ```
-2. (Optional) For these engines ([GDevelop](https://gdevelop-app.com/download/), ...) you have to download the engine and build the example first. Open the project from the corresponding engine UI and build the project for web to the `Build` folder of the project directory.
+2. **Additional steps for some engines** 
+
+For [GDevelop](https://gdevelop-app.com/download/) you have to download the engine and build the example first. Open the project from the corresponding engine UI and build the project for web to the `Build` folder of the project directory.
+
+For **MelonJS** install *grunt* globally and run it in the MelonJS project forlder from the terminal.
 
 3. Navigate to the cloned repository folder
 ```bash
@@ -36,6 +40,7 @@ Example urls:
 
 - **CreateJS** `http://127.0.0.1:8080/CreateJS/`
 - **GDevelop** `http://127.0.0.1:8080/GDevelop/Build/`
+- **MelonJS** `http://127.0.0.1:8080/MelonJS/`
 
 ## Special Thanks
 To Kenney.nl for [Tappy Plane Assets](https://www.kenney.nl/assets/tappy-plane)
