@@ -24,16 +24,14 @@ game.PlayScreen = me.ScreenObject.extend({
 
         game.data.upperRock = false;
         this.spawn = true;
+    },
 
-        let spawnRock = () => {
-            if(!this.spawn) return;
-            let rock = me.pool.pull("rockObj", game.data.upperRock);
-            me.game.world.addChild(rock, 5);
-            game.data.upperRock = !game.data.upperRock;
-            me.timer.setTimeout(spawnRock, game.data.rockSpawnTime + Math.random() * game.data.rockSpawnFluct);
-        }
-
-        spawnRock();
+    spawnRock() {
+        if(!this.spawn) return;
+        let rock = me.pool.pull("rockObj", game.data.upperRock);
+        me.game.world.addChild(rock, 5);
+        game.data.upperRock = !game.data.upperRock;
+        me.timer.setTimeout(this.spawnRock.bind(this), game.data.rockSpawnTime + Math.random() * game.data.rockSpawnFluct);
     },
 
     /**

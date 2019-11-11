@@ -7,7 +7,7 @@ var game = {
         // score
         score : 0,
         jumpVel : 7,
-        flightVel: 0.15,
+        flightVel: 0,
         rockSpawnTime: 1500,
         rockSpawnFluct: 700,
     },

@@ -11,9 +11,10 @@ game.PlaneEntity = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y , settings]);
 
         this.body.vel = new me.Vector2d(0,0);
-        this.body.mass = 0.4;
+        this.body.mass = 0;
         this.body.collisionType = me.collision.types.PLAYER_OBJECT;
         this.body.setCollisionMask(me.collision.types.WORLD_SHAPE);
+        this.renderable.animationpause = true;
     },
 
     /**
@@ -31,8 +32,14 @@ game.PlaneEntity = me.Entity.extend({
         this.body.vel.x = 0;
 
         if(me.input.isKeyPressed("jump")){
+            if(!game.data.started){
+                game.data.started = true;
+                game.playScreen.spawnRock();
+                game.data.flightVel = 0.15;
+                this.body.mass = 0.4;
+                this.renderable.animationpause = false;
+            }
             this.body.vel.y = -game.data.jumpVel;
-            console.log("jump");
         }
 
         // return true if we moved or if the renderable was updated
