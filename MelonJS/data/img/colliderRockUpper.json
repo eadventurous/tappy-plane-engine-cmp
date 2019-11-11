@@ -1,0 +1,11 @@
+{ 
+    
+    "rockGrassDown": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   66, 240  ,  2, 2  ,  108, 1  ]
+        }
+    ]
+}

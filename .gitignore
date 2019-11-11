@@ -2,3 +2,7 @@
 [Bb]uild
 # GDevelop
 *.autosave
+# MelonJS
+bin
+.DS_Store
+node_modules/
