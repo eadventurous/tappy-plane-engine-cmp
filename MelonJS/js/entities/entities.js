@@ -15,6 +15,7 @@ game.PlaneEntity = me.Entity.extend({
         this.body.collisionType = me.collision.types.PLAYER_OBJECT;
         this.body.setCollisionMask(me.collision.types.WORLD_SHAPE);
         this.renderable.animationpause = true;
+        game.data.planePosX = this.pos.x;
     },
 
     /**
@@ -35,6 +36,7 @@ game.PlaneEntity = me.Entity.extend({
             if(!game.data.started){
                 game.data.started = true;
                 game.playScreen.spawnRock();
+                game.playScreen.textObj.text = 0;
                 game.data.flightVel = 0.15;
                 this.body.mass = 0.4;
                 this.renderable.animationpause = false;
@@ -148,6 +150,13 @@ game.RockEntity = me.Entity.extend({
     update: function (time) {
         this.body.update(time);
         this.pos.x -= time*game.data.flightVel;
+
+        if(this.pos.x + this.width/2 < game.data.planePosX && !this.passed){
+            this.passed = true;
+            game.data.score++;
+            game.playScreen.textObj.text = game.data.score;
+        }
+
         return (this._super(me.Entity, 'update', [time]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 });

@@ -2,7 +2,7 @@ game.PlayScreen = me.ScreenObject.extend({
     /**
      *  action to perform on state change
      */
-    onResetEvent: function() {
+    onResetEvent: function () {
 
         me.levelDirector.loadLevel("game-map");
 
@@ -21,13 +21,28 @@ game.PlayScreen = me.ScreenObject.extend({
         this.upperGround = me.pool.pull("doubleGroundObj");
         this.upperGround.setup(true);
         me.game.world.addChild(this.upperGround);
+        
+        this.textObj = new (me.Renderable.extend({
+            init : function () {
+                this._super(me.Renderable, "init", [0, 0, me.game.viewport.width, me.game.viewport.height]);
+                this.text = "TAPPY PLANE";
+                let textColor = new me.Color(82, 158, 222);
+                this.font = new me.Font("arial", 42, textColor, "center");
+                this.alwaysUpdate = true;
+            },
+            destroy : function () {},
+            draw : function (renderer) {
+                this.font.draw(renderer, this.text, me.game.viewport.width, 3*me.game.viewport.height/4);
+            }
+        }));
+        me.game.world.addChild(this.textObj, 10);
 
         game.data.upperRock = false;
         this.spawn = true;
     },
 
     spawnRock() {
-        if(!this.spawn) return;
+        if (!this.spawn) return;
         let rock = me.pool.pull("rockObj", game.data.upperRock);
         me.game.world.addChild(rock, 5);
         game.data.upperRock = !game.data.upperRock;
@@ -37,7 +52,7 @@ game.PlayScreen = me.ScreenObject.extend({
     /**
      *  action to perform when leaving this screen (state change)
      */
-    onDestroyEvent: function() {
+    onDestroyEvent: function () {
         // remove the HUD from the game world
         me.game.world.removeChild(this.HUD);
         me.game.world.removeChild(this.upperGround);
