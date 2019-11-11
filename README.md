@@ -12,6 +12,12 @@ The purpose of the project is to compare features, performance and build sizes o
 
 ## How to run examples
 
+### Dependencies
+
+To run these examples you should have **npm** (Node.js Package Manager) installed.
+
+### Guide
+
 1. Clone the repository to your local machine 
 ```bash
 $ git clone https://github.com/eadventurous/tappy-plane-engine-cmp.git
@@ -20,7 +26,7 @@ $ git clone https://github.com/eadventurous/tappy-plane-engine-cmp.git
 
 For [GDevelop](https://gdevelop-app.com/download/) you have to download the engine and build the example first. Open the project from the corresponding engine UI and build the project for web to the `Build` folder of the project directory.
 
-For **MelonJS** install *grunt* globally and run it in the MelonJS project forlder from the terminal.
+For **MelonJS** run `npm install` in the MelonJS project folder. Then install *grunt* globally and run it in the MelonJS project forlder from the terminal.
 
 3. Navigate to the cloned repository folder
 ```bash
