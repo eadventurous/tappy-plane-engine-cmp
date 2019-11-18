@@ -3,8 +3,15 @@ var gameHeight = 460;
 
 var state;
 var ticker;
+var resources;
 
 var ground;
+
+var rocks = [];
+var rockSpawnTime = 1500;
+var rockSpawnTimeVariation = 700;
+var rockSpawnCountdown = rockSpawnTime;
+var rockType = false;
 
 var speed = 150;
 //Create a Pixi Application
@@ -21,11 +28,13 @@ document.body.appendChild(app.view);
 PIXI.loader
     .add("background", "../Assets/PNG/background.png")
     .add("ground", "../Assets/PNG/groundGrass.png")
+    .add("rock", "../Assets/PNG/rockGrass.png")
+    .add("rockDown", "../Assets/PNG/rockGrassDown.png")
     .load(setup);
 
 function setup() {
 
-    let resources = PIXI.loader.resources;
+    resources = PIXI.loader.resources;
 
     let background = new PIXI.Sprite(resources.background.texture);
     app.stage.addChild(background);
@@ -65,6 +74,28 @@ function play(delta) {
 
     ground.x = shiftGroundX(ground, shift);
     upperground.x = shiftGroundX(upperground, shift);
+
+    rockSpawnCountdown -= ticker.elapsedMS;
+    if(rockSpawnCountdown < 0) {
+        spawnRock(rockType);
+        rockType = !rockType;
+        rockSpawnCountdown = rockSpawnTime + Math.random()*rockSpawnTimeVariation;
+    }
+
+    rocks.forEach(rock => {
+        rock.x -= shift;
+        if(rock.x <= -rock.width) app.stage.removeChild(rock);
+    });
+}
+
+function spawnRock(down){
+    let rockTex = resources[down ? "rockDown" : "rock"].texture;
+    let rock = new PIXI.Sprite(rockTex);
+    rock.x = gameWidth;
+    rock.y = down ? 0 : gameHeight - rockTex.height;
+    rocks.push(rock);
+    app.stage.addChild(rock);
+    rock.passed = false;
 }
 
 function shiftGroundX(ground, deltaX) {
