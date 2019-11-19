@@ -8,6 +8,7 @@ var resources;
 var ground;
 var upperground;
 var plane;
+var score;
 
 var rocks = [];
 var rockSpawnTime = 1500;
@@ -74,11 +75,26 @@ function setup() {
     plane.x = plane.width;
     addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+plane.height, x: plane.x + plane.width} );
 
+    score = new PIXI.Text("TAPPY PLANE", 
+    {
+        fontFamily : 'Arial', 
+        fontSize: 42,
+        fill : 0x529ede, 
+        align : 'center'
+    });
+    score.x = gameWidth / 2 - score.width / 2;
+    score.y = gameHeight / 5;
+    app.stage.sortableChildren = true;
+    score.zIndex = 10;
+    app.stage.addChild(score);
+
     app.stage.interactive = true;
     app.stage.mouseup = () => {
         state = play;
         planeV = speedBoost;
         plane.play();
+        score.text = 0;
+        score.x = gameWidth / 2 - score.width / 2;
         app.stage.mouseup = () => planeV = speedBoost;
     }
 
@@ -125,6 +141,11 @@ function play(delta) {
         rock.collider.update({x:-shift, y:0});
         if(rock.collider.intersects(plane.collider)){ 
             restart();
+        }
+        if(!rock.passed && rock.x + rock.width/2 < plane.x + plane.width/2){
+            rock.passed = true;
+            score.text = (parseInt(score.text) + 1).toString();
+            score.x = gameWidth / 2 - score.width / 2;
         }
     });
 
