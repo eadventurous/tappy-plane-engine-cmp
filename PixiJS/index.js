@@ -6,12 +6,19 @@ var ticker;
 var resources;
 
 var ground;
+var upperground;
+var plane;
 
 var rocks = [];
 var rockSpawnTime = 1500;
 var rockSpawnTimeVariation = 700;
 var rockSpawnCountdown = rockSpawnTime;
 var rockType = false;
+
+var planeV = 0;
+var planeA = 0.2;
+var planeM = 100;
+var speedBoost = -5;
 
 var speed = 150;
 //Create a Pixi Application
@@ -30,6 +37,9 @@ PIXI.loader
     .add("ground", "../Assets/PNG/groundGrass.png")
     .add("rock", "../Assets/PNG/rockGrass.png")
     .add("rockDown", "../Assets/PNG/rockGrassDown.png")
+    .add("plane1", "../Assets/PNG/Planes/planeRed1.png")
+    .add("plane2", "../Assets/PNG/Planes/planeRed2.png")
+    .add("plane3", "../Assets/PNG/Planes/planeRed3.png")
     .load(setup);
 
 function setup() {
@@ -53,6 +63,16 @@ function setup() {
     upperground.y = groundTex.height;
     upperground.scale.y = -1;
     app.stage.addChild(upperground);
+
+    let planeTexs = [resources["plane1"].texture, resources["plane2"].texture, resources["plane3"].texture];
+    plane = new PIXI.AnimatedSprite(planeTexs);
+    app.stage.addChild(plane);
+    plane.play();
+    plane.y = gameHeight/2 - plane.height/2;
+    plane.x = plane.width;
+
+    app.stage.interactive = true;
+    app.stage.mouseup = () => planeV = speedBoost;
 
     state = play;
 
@@ -86,6 +106,9 @@ function play(delta) {
         rock.x -= shift;
         if(rock.x <= -rock.width) app.stage.removeChild(rock);
     });
+
+    planeV += planeA;
+    plane.y += planeV;
 }
 
 function spawnRock(down){
