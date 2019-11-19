@@ -47,6 +47,7 @@ Example urls:
 - **CreateJS** `http://127.0.0.1:8080/CreateJS/`
 - **GDevelop** `http://127.0.0.1:8080/GDevelop/Build/`
 - **MelonJS** `http://127.0.0.1:8080/MelonJS/`
+- **PixiJS** `http://127.0.0.1:8080/PixiJS/`
 
 ## Special Thanks
 To Kenney.nl for [Tappy Plane Assets](https://www.kenney.nl/assets/tappy-plane)
