@@ -67,14 +67,18 @@ function setup() {
     let planeTexs = [resources["plane1"].texture, resources["plane2"].texture, resources["plane3"].texture];
     plane = new PIXI.AnimatedSprite(planeTexs);
     app.stage.addChild(plane);
-    plane.play();
     plane.y = gameHeight/2 - plane.height/2;
     plane.x = plane.width;
 
     app.stage.interactive = true;
-    app.stage.mouseup = () => planeV = speedBoost;
+    app.stage.mouseup = () => {
+        state = play;
+        planeV = speedBoost;
+        plane.play();
+        app.stage.mouseup = () => planeV = speedBoost;
+    }
 
-    state = play;
+    state = idle;
 
     ticker = PIXI.Ticker.shared;
     ticker.add(delta => gameLoop(delta));
@@ -85,6 +89,10 @@ function gameLoop(delta) {
 
     //Update the current game state:
     state(delta);
+}
+
+function idle(delta) {
+    
 }
 
 function play(delta) {
