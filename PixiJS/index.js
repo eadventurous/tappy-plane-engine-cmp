@@ -122,6 +122,10 @@ function play(delta) {
     rocks.forEach(rock => {
         rock.x -= shift;
         if(rock.x <= -rock.width) app.stage.removeChild(rock);
+        rock.collider.update({x:-shift, y:0});
+        if(rock.collider.intersects(plane.collider)){ 
+            restart();
+        }
     });
 
     planeV += planeA;
@@ -138,6 +142,7 @@ function spawnRock(down){
     rock.y = down ? 0 : gameHeight - rockTex.height;
     rocks.push(rock);
     app.stage.addChild(rock);
+    addRectCollider(rock, {x: rock.x + rockTex.width/9*4, y: rock.y}, {x: rock.x + rockTex.width/9*5, y: rock.y + rockTex.height});
     rock.passed = false;
 }
 
