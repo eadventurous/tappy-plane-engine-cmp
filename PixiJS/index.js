@@ -55,6 +55,8 @@ function setup() {
     ground.tileW = tileW;
     ground.x = shiftGroundX(ground, Math.random() * tileW);
     ground.y = gameHeight - groundTex.height;
+    ground.hitArea = new PIXI.RoundedRectangle(0, groundTex.height/3, ground.width, groundTex.height*2/3);
+    addRectCollider(ground, {y: gameHeight-(groundTex.height/1.5), x: 0}, {y: gameHeight, x: gameWidth} );
     app.stage.addChild(ground);
 
     upperground = new PIXI.TilingSprite(groundTex, gameWidth + tileW, groundTex.height);
@@ -62,6 +64,7 @@ function setup() {
     upperground.x = shiftGroundX(upperground, Math.random() * tileW);
     upperground.y = groundTex.height;
     upperground.scale.y = -1;
+    addRectCollider(upperground, {y: 0, x: 0}, {y: groundTex.height/1.5, x: gameWidth} )
     app.stage.addChild(upperground);
 
     let planeTexs = [resources["plane1"].texture, resources["plane2"].texture, resources["plane3"].texture];
@@ -69,6 +72,7 @@ function setup() {
     app.stage.addChild(plane);
     plane.y = gameHeight/2 - plane.height/2;
     plane.x = plane.width;
+    addRectCollider(plane, {y: plane.y, x: plane.x}, {y: plane.y+plane.height, x: plane.x + plane.width} );
 
     app.stage.interactive = true;
     app.stage.mouseup = () => {
@@ -95,6 +99,11 @@ function idle(delta) {
     
 }
 
+function restart(){
+    state = idle;
+    location.reload();
+}
+
 function play(delta) {
     let deltaS = ticker.elapsedMS / 1000;
 
@@ -117,6 +126,9 @@ function play(delta) {
 
     planeV += planeA;
     plane.y += planeV;
+    plane.collider.update({x: 0, y: planeV});
+    if(plane.collider.intersects(ground.collider) || plane.collider.intersects(upperground.collider))
+        restart();
 }
 
 function spawnRock(down){
@@ -131,4 +143,24 @@ function spawnRock(down){
 
 function shiftGroundX(ground, deltaX) {
     return (ground.x - deltaX) % ground.tileW;
+}
+
+function addRectCollider(shape, point1, point2){
+    shape.collider = {
+        point1: point1,
+        point2: point2,
+        update (shift) {
+            this.point1.x += shift.x;
+            this.point2.x += shift.x;
+            this.point1.y += shift.y;
+            this.point2.y += shift.y;
+        },
+
+        intersects (other){
+            return !(this.point1.x > other.point2.x 
+            || this.point2.x < other.point1.x
+            || this.point1.y > other.point2.y
+            || this.point2.y < other.point1.y)
+        }
+    }
 }
