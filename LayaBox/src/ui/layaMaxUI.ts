@@ -2,8 +2,14 @@
 import { Scene } from "laya/display/Scene";
 import { ClassUtils } from "laya/utils/ClassUtils";
 var REG: Function = ClassUtils.regClass;
-import { Label } from "laya/ui/Label";
 import { Sprite } from "laya/display/Sprite";
+export module ui {
+	export class MainUI extends Scene {
+		public referenceClass:Array<any>=[Sprite]; // 强制引用类,防止被编译器忽略
+		constructor(){ super() }
+	}
+}
+import { Label } from "laya/ui/Label";
 export module ui.test {
     export class TestSceneUI extends Scene {
 		public scoreLbl:Label;
