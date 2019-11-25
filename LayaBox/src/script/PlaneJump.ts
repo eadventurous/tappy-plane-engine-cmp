@@ -6,6 +6,9 @@ import { Laya } from "Laya";
 import RockSpawn from "./RockSpawn";
 import { Node } from "laya/display/Node";
 import { Animation } from "laya/display/Animation"
+import { Scene } from "laya/display/Scene";
+import { ColliderBase } from "laya/physics/ColliderBase";
+import { Handler } from "laya/utils/Handler";
 
 export default class PlaneJump extends Script {
 
@@ -38,7 +41,9 @@ export default class PlaneJump extends Script {
         rig.setVelocity({x: rig.linearVelocity.x, y:-this.boost});
     }
 
-    onTriggerEnter(): void {
-
+    onTriggerEnter(other: ColliderBase): void {
+        Laya.stage.removeChildren();
+        GameVars.scrollV = 0;
+        Scene.load("Main.scene",new Handler(null, (scene: Scene) => Laya.stage.addChild(scene)));
     }
 }

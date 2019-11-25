@@ -228,7 +228,7 @@
                     "switchAble":true,
                     "searchKey":"CircleCollider",
                     "removeAble":true,
-                    "props":{"y":-5,"radius":40},
+                    "props":{"y":-5,"radius":40,"isSensor":false},
                     "nodeParent":32,
                     "label":"CircleCollider",
                     "isDirectory":false,
