@@ -10,9 +10,9 @@ export default class RockSpawn extends Script {
     /** @prop {name:rockPrefab,tips:"",type:Prefab}*/
     rockPrefab: Prefab;
 
-    rockSpawnTime = 2500;
-    rockSpawnTimeVariation = 1000;
-    rockSpawnCountdown = this.rockSpawnTime;
+    rockSpawnTime = 3300;
+    rockSpawnTimeVariation = 700;
+    rockSpawnCountdown = 0;
     upperRock = false;
 
     constructor() { super(); }
