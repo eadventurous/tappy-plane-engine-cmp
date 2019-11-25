@@ -1,6 +1,6 @@
 import { Script } from "laya/components/Script";
 import { RigidBody } from "laya/physics/RigidBody";
-import GameConstants from "./GameConstants";
+import GameVars from "./GameVars";
 import { Sprite } from "laya/display/Sprite";
 import { Laya } from "Laya";
 import { Pool } from "laya/utils/Pool";
@@ -18,7 +18,7 @@ export default class Scroll extends Script {
 
     onUpdate(): void {
         var rig: RigidBody = this.owner.getComponent(RigidBody);
-        rig.setVelocity({ x: -GameConstants.scrollV, y: 0 });
+        rig.setVelocity({ x: -GameVars.scrollV, y: 0 });
         var owner = this.owner as Sprite;
 
         let spawnCondition = false;
