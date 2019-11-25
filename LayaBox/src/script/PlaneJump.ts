@@ -27,7 +27,7 @@ export default class PlaneJump extends Script {
         let rig: RigidBody = this.owner.getComponent(RigidBody);
 
         if(!this.started){
-            GameVars.scrollV = 1.5;
+            GameVars.scrollV = 2;
             (this.rockSpawner.getComponent(RockSpawn) as RockSpawn).enabled = true;
             this.started = true;
             rig.gravityScale = 1;
