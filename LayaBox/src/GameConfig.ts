@@ -2,6 +2,7 @@
 import Scroll from "./script/Scroll"
 import RockSpawn from "./script/RockSpawn"
 import PlaneJump from "./script/PlaneJump"
+import TitleText from "./script/TitleText"
 import GameUI from "./script/GameUI"
 import GameControl from "./script/GameControl"
 import Bullet from "./script/Bullet"
@@ -10,8 +11,8 @@ import RockScroll from "./script/RockScroll"
 import { RigidBody } from "laya/physics/RigidBody"
 import { ChainCollider } from "laya/physics/ChainCollider"
 import { CircleCollider } from "laya/physics/CircleCollider"
-import { BoxCollider } from "laya/physics/BoxCollider"
 import { Text } from "laya/display/Text"
+import { BoxCollider } from "laya/physics/BoxCollider"
 import { ClassUtils } from "laya/utils/ClassUtils";
 import { ui } from "./ui/layaMaxUI";
 /*
@@ -37,6 +38,7 @@ export default class GameConfig{
         reg("script/Scroll.ts",Scroll);
         reg("script/RockSpawn.ts",RockSpawn);
         reg("script/PlaneJump.ts",PlaneJump);
+        reg("script/TitleText.ts",TitleText);
         reg("script/GameUI.ts",GameUI);
         reg("script/GameControl.ts",GameControl);
         reg("script/Bullet.ts",Bullet);
@@ -45,8 +47,8 @@ export default class GameConfig{
         reg("laya.physics.RigidBody",RigidBody);
         reg("laya.physics.ChainCollider",ChainCollider);
         reg("laya.physics.CircleCollider",CircleCollider);
-        reg("laya.physics.BoxCollider",BoxCollider);
         reg("laya.display.Text",Text);
+        reg("laya.physics.BoxCollider",BoxCollider);
     }
 }
 GameConfig.init();

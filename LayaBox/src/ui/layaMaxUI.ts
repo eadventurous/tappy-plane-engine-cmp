@@ -4,9 +4,10 @@ import { ClassUtils } from "laya/utils/ClassUtils";
 var REG: Function = ClassUtils.regClass;
 import { Sprite } from "laya/display/Sprite";
 import { Animation } from "laya/display/Animation";
+import { Text } from "laya/display/Text";
 export module ui {
 	export class MainUI extends Scene {
-		public referenceClass:Array<any>=[Sprite, Animation]; // 强制引用类,防止被编译器忽略
+		public referenceClass:Array<any>=[Sprite, Animation, Text]; // 强制引用类,防止被编译器忽略
 		constructor(){ super() }
 	}
 }

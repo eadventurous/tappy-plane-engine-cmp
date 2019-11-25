@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":32,
+    "selecteID":25,
     "searchKey":"Scene,root",
     "props":{"width":800,"sceneColor":"#000000","sceneBg":"laya/views/Main.png","name":"root","height":480},
     "nodeParent":-1,
-    "maxID":39,
+    "maxID":44,
     "label":"root",
     "isOpen":true,
     "isDirectory":true,
@@ -46,7 +46,6 @@
             "compId":17,
             "child":[
                 {
-                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -62,7 +61,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"ChainCollider",
                     "switchAble":true,
                     "searchKey":"ChainCollider",
@@ -78,7 +76,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Scroll.ts",
@@ -121,7 +118,6 @@
             "compId":19,
             "child":[
                 {
-                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -137,7 +133,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"ChainCollider",
                     "switchAble":true,
                     "searchKey":"ChainCollider",
@@ -153,7 +148,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Scroll.ts",
@@ -198,7 +192,7 @@
                     "source":"src/script/RockSpawn.ts",
                     "searchKey":"Script,RockSpawn",
                     "removeAble":true,
-                    "props":{"rockPrefab":"@Prefab:prefab/rock.prefab","enabled":false},
+                    "props":{"textNode":"@node:41","rockPrefab":"@Prefab:prefab/rock.prefab","plane":"@node:32","enabled":false},
                     "nodeParent":25,
                     "label":"RockSpawn",
                     "isDirectory":false,
@@ -261,13 +255,43 @@
                     "source":"src/script/PlaneJump.ts",
                     "searchKey":"Script,PlaneJump",
                     "removeAble":true,
-                    "props":{"rockSpawner":"@node:25"},
+                    "props":{"textNode":"@node:41","rockSpawner":"@node:25"},
                     "nodeParent":32,
                     "label":"PlaneJump",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":36,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Text",
+            "searchKey":"Text,titleText",
+            "props":{"zOrder":4,"y":111.25,"x":271.25390625,"text":"TAPPY PLANE","name":"titleText","fontSize":42,"font":"Arial","color":"#0388c6"},
+            "nodeParent":2,
+            "label":"titleText",
+            "isOpen":null,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":41,
+            "child":[
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/script/TitleText.ts",
+                    "searchKey":"Script,TitleText",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":41,
+                    "label":"TitleText",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":43,
                     "child":[
                         ]
                 }]

@@ -35,6 +35,7 @@ export default class PlaneJump extends Script {
             this.started = true;
             rig.gravityScale = 1;
             this.anim.texture = null;
+            GameVars.score = 0;
             this.anim.play();
         }
 
@@ -44,6 +45,7 @@ export default class PlaneJump extends Script {
     onTriggerEnter(other: ColliderBase): void {
         Laya.stage.removeChildren();
         GameVars.scrollV = 0;
+        GameVars.score = -1;
         Scene.load("Main.scene",new Handler(null, (scene: Scene) => Laya.stage.addChild(scene)));
     }
 }
