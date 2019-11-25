@@ -28,7 +28,7 @@ import { ClassUtils } from "laya/utils/ClassUtils";]]>   </codeImportsTS>
    <trimempty>true   </trimempty>
    <startScene>Main.scene   </startScene>
    <engineType>2D   </engineType>
-   <scaleMode>fixedwidth   </scaleMode>
+   <scaleMode>exactfit   </scaleMode>
    <screenMode>none   </screenMode>
    <alignV>top   </alignV>
    <alignH>left   </alignH>
