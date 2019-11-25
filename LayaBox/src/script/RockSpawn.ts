@@ -21,11 +21,12 @@ export default class RockSpawn extends Script {
         this.rockSpawnCountdown -= Laya.timer.delta;
         if (this.rockSpawnCountdown <= 0) {
             let rock: Sprite = Pool.getItemByCreateFun("rock", this.rockPrefab.create, this.rockPrefab);
-            rock.pos(Laya.stage.width, this.upperRock ? rock.height : Laya.stage.height - rock.height);
-            rock.scaleY = this.upperRock ? -1 : 1;
+            rock.pos(Laya.stage.width + (this.upperRock ? rock.width : 0),
+             this.upperRock ? rock.height : Laya.stage.height - rock.height);
+            rock.rotation = this.upperRock ? 180 : 0;
             rock.zOrder = 3;
             this.upperRock = !this.upperRock;
-            this.rockSpawnCountdown = this.rockSpawnTime + RandX.defaultRand.random()*this.rockSpawnTimeVariation;
+            this.rockSpawnCountdown = this.rockSpawnTime + RandX.defaultRand.random() * this.rockSpawnTimeVariation;
             Laya.stage.addChild(rock);
         }
     }
