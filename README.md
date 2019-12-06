@@ -28,6 +28,8 @@ For [GDevelop](https://gdevelop-app.com/download/) you have to download the engi
 
 For **MelonJS** run `npm install` in the MelonJS project folder. Then install *grunt* globally and run it in the MelonJS project forlder from the terminal.
 
+For **LayaBox** download [LayaAir IDE](https://ldc2.layabox.com/layadownload/?language=en&type=layaairide-LayaAir%20IDE%202.3.0beta). Open the `LayaBox` folder with it and build the project for web.
+
 3. Navigate to the cloned repository folder
 ```bash
 $ cd tappy-plane-engine-cmp
@@ -48,6 +50,7 @@ Example urls:
 - **GDevelop** `http://127.0.0.1:8080/GDevelop/Build/`
 - **MelonJS** `http://127.0.0.1:8080/MelonJS/`
 - **PixiJS** `http://127.0.0.1:8080/PixiJS/`
+- **LayaBox** `http://127.0.0.1:8080/LayaBox/release/web/`
 
 ## Special Thanks
 To Kenney.nl for [Tappy Plane Assets](https://www.kenney.nl/assets/tappy-plane)
