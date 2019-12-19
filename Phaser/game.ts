@@ -13,7 +13,14 @@ const config: Phaser.Types.Core.GameConfig = {
   height: 480,
   type: Phaser.AUTO,
   parent: "game",
-  scene: MainScene
+  scene: MainScene,
+  physics: {
+    default: 'arcade',
+    arcade: {
+        gravity: { y: 300 },
+        debug: true
+    }
+},
 };
 
 export class Game extends Phaser.Game {
