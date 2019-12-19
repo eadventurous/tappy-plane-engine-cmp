@@ -5,7 +5,8 @@
  */
 
 export class MainScene extends Phaser.Scene {
-  private phaserSprite: Phaser.GameObjects.Sprite;
+  private background: Phaser.GameObjects.Sprite;
+  private plane: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({
@@ -14,10 +15,25 @@ export class MainScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("myImage", "./assets/phaser.png");
+    this.load.image("background", "./assets/PNG/background.png");
+    this.load.spritesheet("plane", "./assets/Spritesheet/planeSpritesheet.png", { frameWidth: 88, frameHeight: 73 });
   }
 
   create(): void {
-    this.phaserSprite = this.add.sprite(400, 300, "myImage");
+    this.background = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "background");
+
+    let planeAnim = this.anims.create({
+      key: 'fly',
+      frames: this.anims.generateFrameNumbers('plane', null),
+      frameRate: 16,
+      repeat: -1
+    });
+
+    this.plane = this.add.sprite(this.cameras.main.centerX / 4, this.cameras.main.centerY, 'plane');
+    this.plane.play("fly");
+  }
+
+  update(time: number, delta: number): void {
+
   }
 }
