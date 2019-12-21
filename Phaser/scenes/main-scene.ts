@@ -14,6 +14,7 @@ export class MainScene extends Phaser.Scene {
   private height: integer;
   private width: integer;
   private jumpVel = 200;
+  private scrollSpeed = 0.2;
   private started: boolean;
 
   constructor() {
@@ -31,7 +32,7 @@ export class MainScene extends Phaser.Scene {
 
   create(): void {
     this.started = false;
-    
+
     this.background = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "background");
     this.height = this.cameras.main.centerY * 2;
     this.width = this.cameras.main.centerX * 2;
@@ -88,6 +89,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-
+    if(this.started){
+      this.lowerGround.tilePositionX += this.scrollSpeed*delta;
+      this.upperGround.tilePositionX += this.scrollSpeed*delta;
+    }
   }
 }
