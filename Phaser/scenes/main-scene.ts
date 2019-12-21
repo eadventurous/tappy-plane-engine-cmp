@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { Rock } from "../gameObjects/Rock";
 
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
@@ -16,6 +17,7 @@ export class MainScene extends Phaser.Scene {
   private jumpVel = 200;
   private scrollSpeed = 0.2;
   private started: boolean;
+  private rocks = new Array<Rock>();
 
   constructor() {
     super({
@@ -28,6 +30,7 @@ export class MainScene extends Phaser.Scene {
     this.load.spritesheet("plane", "./assets/Spritesheet/planeSpritesheet.png", { frameWidth: 88, frameHeight: 73 });
     this.load.image("ground", "./assets/PNG/groundGrass.png");
     this.load.image("filler", "./assets/transparent-pixel.png");
+    this.load.image("rock", "./assets/PNG/rockGrass.png");
   }
 
   create(): void {
@@ -53,24 +56,22 @@ export class MainScene extends Phaser.Scene {
     this.lowerGround = this.add.tileSprite(this.cameras.main.centerX,
       this.height - groundHeight / 2, this.width, groundHeight, "ground");
 
-    let lgCollider = this.physics.add.image(this.cameras.main.centerX, this.height - groundHeight / 2, "filler")
-      .setImmovable(true);
-    lgCollider.setSize(this.width, 1);
-    let groundBody = (lgCollider.body as Physics.Arcade.Body);
-    groundBody.allowGravity = false;
+    this.physics.add.existing(this.lowerGround);
+    (this.lowerGround.body as Physics.Arcade.Body).setImmovable(true)
+      .setSize(this.width, 1)
+      .setAllowGravity(false);
 
     //upper ground
     this.upperGround = this.add.tileSprite(this.cameras.main.centerX,
       groundHeight / 2, this.width, groundHeight, "ground");
-    this.upperGround.scaleY = -1;
+    this.upperGround.setRotation(Math.PI);
 
-    let ugCollider = this.physics.add.image(this.cameras.main.centerX, groundHeight / 2, "filler")
-      .setImmovable(true);
-    ugCollider.setSize(this.width, 1);
-    groundBody = (ugCollider.body as Physics.Arcade.Body);
-    groundBody.allowGravity = false;
+    this.physics.add.existing(this.upperGround);
+    (this.upperGround.body as Physics.Arcade.Body).setImmovable(true)
+      .setSize(this.width, 1)
+      .setAllowGravity(false);
 
-    this.physics.add.collider(this.plane, [lgCollider, ugCollider], () => {
+    this.physics.add.collider(this.plane, [this.lowerGround, this.upperGround], () => {
       this.scene.restart();
     });
 
@@ -86,12 +87,15 @@ export class MainScene extends Phaser.Scene {
   start() {
     (this.plane.body as Physics.Arcade.Body).setAllowGravity(true);
     this.plane.play("fly");
+    let rock = new Rock({scene: this, upper: true, scrollSpeed: this.scrollSpeed});
+    this.rocks.push(rock);
   }
 
   update(time: number, delta: number): void {
     if(this.started){
       this.lowerGround.tilePositionX += this.scrollSpeed*delta;
-      this.upperGround.tilePositionX += this.scrollSpeed*delta;
+      this.upperGround.tilePositionX -= this.scrollSpeed*delta;
     }
+    this.rocks.forEach((rock) => rock.update(time, delta));
   }
 }
