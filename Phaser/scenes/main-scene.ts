@@ -14,6 +14,7 @@ export class MainScene extends Phaser.Scene {
   private height: integer;
   private width: integer;
   private jumpVel = 200;
+  private started = false;
 
   constructor() {
     super({
@@ -41,6 +42,7 @@ export class MainScene extends Phaser.Scene {
     });
 
     this.plane = this.physics.add.sprite(this.cameras.main.centerX / 4, this.cameras.main.centerY, 'plane');
+    (this.plane.body as Physics.Arcade.Body).setAllowGravity(false);
     this.plane.play("fly");
 
     let groundHeight = 71;
@@ -56,10 +58,20 @@ export class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(this.plane, lgCollider, () => this.scene.restart());
 
-    this.input.on('pointerdown', (pointer) => (this.plane.body as Physics.Arcade.Body).setVelocityY(-this.jumpVel))
+    this.input.on('pointerdown', (pointer) => {
+      if (!this.started) {
+        this.start();
+        this.started = true;
+      }
+      (this.plane.body as Physics.Arcade.Body).setVelocityY(-this.jumpVel)
+    })
+  }
+
+  start() {
+    (this.plane.body as Physics.Arcade.Body).setAllowGravity(true);
   }
 
   update(time: number, delta: number): void {
-    
+
   }
 }
