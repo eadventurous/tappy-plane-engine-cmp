@@ -43,7 +43,6 @@ export class MainScene extends Phaser.Scene {
 
     this.plane = this.physics.add.sprite(this.cameras.main.centerX / 4, this.cameras.main.centerY, 'plane');
     (this.plane.body as Physics.Arcade.Body).setAllowGravity(false);
-    this.plane.play("fly");
 
     let groundHeight = 71;
 
@@ -69,6 +68,7 @@ export class MainScene extends Phaser.Scene {
 
   start() {
     (this.plane.body as Physics.Arcade.Body).setAllowGravity(true);
+    this.plane.play("fly");
   }
 
   update(time: number, delta: number): void {
