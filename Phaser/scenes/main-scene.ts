@@ -19,6 +19,12 @@ export class MainScene extends Phaser.Scene {
   private started: boolean;
   private rocks = new Array<Rock>();
 
+  //rock spawn
+  private rockSpawnTime = 1700;
+  private rockSpawnTimeVariation = 700;
+  private rockSpawnCountdown = 0;
+  private upperRock = false;
+
   constructor() {
     super({
       key: "MainScene"
@@ -87,15 +93,25 @@ export class MainScene extends Phaser.Scene {
   start() {
     (this.plane.body as Physics.Arcade.Body).setAllowGravity(true);
     this.plane.play("fly");
-    let rock = new Rock({scene: this, upper: true, scrollSpeed: this.scrollSpeed});
-    this.rocks.push(rock);
   }
 
   update(time: number, delta: number): void {
-    if(this.started){
-      this.lowerGround.tilePositionX += this.scrollSpeed*delta;
-      this.upperGround.tilePositionX -= this.scrollSpeed*delta;
+    if (this.started) {
+      //ground
+      this.lowerGround.tilePositionX += this.scrollSpeed * delta;
+      this.upperGround.tilePositionX -= this.scrollSpeed * delta;
+
+      //rocks
+      this.rocks.forEach((rock) => rock.update(time, delta));
+
+      this.rockSpawnCountdown -= delta;
+      if (this.rockSpawnCountdown <= 0) {
+        let rock = new Rock({ scene: this, upper: this.upperRock, scrollSpeed: this.scrollSpeed });
+        this.rocks.push(rock);
+        this.upperRock = !this.upperRock;
+        this.rockSpawnCountdown = this.rockSpawnTime + Math.random() * this.rockSpawnTimeVariation;
+        this.physics.add.collider(this.plane, rock, () => this.scene.restart());
+      }
     }
-    this.rocks.forEach((rock) => rock.update(time, delta));
   }
 }
