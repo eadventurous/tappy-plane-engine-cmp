@@ -14,7 +14,7 @@ export class MainScene extends Phaser.Scene {
   private height: integer;
   private width: integer;
   private jumpVel = 200;
-  private started = false;
+  private started: boolean;
 
   constructor() {
     super({
@@ -30,6 +30,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.started = false;
+    
     this.background = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "background");
     this.height = this.cameras.main.centerY * 2;
     this.width = this.cameras.main.centerX * 2;
@@ -46,6 +48,7 @@ export class MainScene extends Phaser.Scene {
 
     let groundHeight = 71;
 
+    //lower ground
     this.lowerGround = this.add.tileSprite(this.cameras.main.centerX,
       this.height - groundHeight / 2, this.width, groundHeight, "ground");
 
@@ -55,7 +58,20 @@ export class MainScene extends Phaser.Scene {
     let groundBody = (lgCollider.body as Physics.Arcade.Body);
     groundBody.allowGravity = false;
 
-    this.physics.add.collider(this.plane, lgCollider, () => this.scene.restart());
+    //upper ground
+    this.upperGround = this.add.tileSprite(this.cameras.main.centerX,
+      groundHeight / 2, this.width, groundHeight, "ground");
+    this.upperGround.scaleY = -1;
+
+    let ugCollider = this.physics.add.image(this.cameras.main.centerX, groundHeight / 2, "filler")
+      .setImmovable(true);
+    ugCollider.setSize(this.width, 1);
+    groundBody = (ugCollider.body as Physics.Arcade.Body);
+    groundBody.allowGravity = false;
+
+    this.physics.add.collider(this.plane, [lgCollider, ugCollider], () => {
+      this.scene.restart();
+    });
 
     this.input.on('pointerdown', (pointer) => {
       if (!this.started) {
