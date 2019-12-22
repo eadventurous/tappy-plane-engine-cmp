@@ -12,6 +12,7 @@
 		"bin-debug/Main.js",
 		"bin-debug/Obstacle.js",
 		"bin-debug/Plane.js",
-		"bin-debug/Platform.js"
+		"bin-debug/Platform.js",
+		"bin-debug/ScoreText.js"
 	]
 }

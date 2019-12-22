@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,background_png,groundGrass_png,rockGrass_png,planeGreen1_png",
+			"keys": "description_json,background_png,groundGrass_png,rockGrass_png,planeGreen1_png,number0_png,number1_png,number2_png,number3_png,number4_png,number5_png,number6_png,number7_png,number8_png,number9_png",
 			"name": "preload"
 		}
 	],
@@ -30,6 +30,56 @@
 			"url": "assets/planeGreen1.png",
 			"type": "image",
 			"name": "planeGreen1_png"
+		},
+		{
+			"url": "assets/numbers/number0.png",
+			"type": "image",
+			"name": "number0_png"
+		},
+		{
+			"url": "assets/numbers/number1.png",
+			"type": "image",
+			"name": "number1_png"
+		},
+		{
+			"url": "assets/numbers/number2.png",
+			"type": "image",
+			"name": "number2_png"
+		},
+		{
+			"url": "assets/numbers/number3.png",
+			"type": "image",
+			"name": "number3_png"
+		},
+		{
+			"url": "assets/numbers/number4.png",
+			"type": "image",
+			"name": "number4_png"
+		},
+		{
+			"url": "assets/numbers/number5.png",
+			"type": "image",
+			"name": "number5_png"
+		},
+		{
+			"url": "assets/numbers/number6.png",
+			"type": "image",
+			"name": "number6_png"
+		},
+		{
+			"url": "assets/numbers/number7.png",
+			"type": "image",
+			"name": "number7_png"
+		},
+		{
+			"url": "assets/numbers/number8.png",
+			"type": "image",
+			"name": "number8_png"
+		},
+		{
+			"url": "assets/numbers/number9.png",
+			"type": "image",
+			"name": "number9_png"
 		}
 	]
 }

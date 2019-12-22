@@ -49,6 +49,7 @@ var Main = (function (_super) {
         var _this = _super.call(this) || this;
         _this._backgrounds = new Array();
         _this._player = new Plane();
+        _this._scoreText = new ScoreText();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -137,6 +138,11 @@ var Main = (function (_super) {
         });
         this._player.init("planeGreen1_png", this.stage);
         this.addChild(this._player);
+        var st = this._scoreText;
+        st.x = this.stage.stageWidth * 0.5;
+        st.y = 25;
+        st.setNumber(0);
+        this.addChild(st);
     };
     Main.prototype.createBackground = function (i) {
         var bg = Main.createBitmapByName("background_png");

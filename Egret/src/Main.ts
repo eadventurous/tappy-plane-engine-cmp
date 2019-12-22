@@ -5,11 +5,13 @@ class Main extends egret.DisplayObjectContainer {
     
     private _backgrounds : egret.DisplayObject[];
     private _player : Plane;
+    private _scoreText : ScoreText;
 
     public constructor() {
         super();
         this._backgrounds = new Array();
         this._player = new Plane();
+        this._scoreText = new ScoreText();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
@@ -84,6 +86,12 @@ class Main extends egret.DisplayObjectContainer {
 
         this._player.init("planeGreen1_png", this.stage);
         this.addChild(this._player);
+
+        let st = this._scoreText;
+        st.x = this.stage.stageWidth * 0.5;
+        st.y = 25;
+        st.setNumber(0);
+        this.addChild(st);
     }
 
     private createBackground(i: number) : egret.Bitmap {
