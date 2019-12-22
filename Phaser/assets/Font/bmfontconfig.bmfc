@@ -32,7 +32,7 @@ forceZero=0
 # output file
 outWidth=512
 outHeight=512
-outBitDepth=8
+outBitDepth=32
 fontDescFormat=1
 fourChnlPacked=0
 textureFormat=png

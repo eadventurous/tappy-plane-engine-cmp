@@ -17,7 +17,8 @@ export class MainScene extends Phaser.Scene {
   private jumpVel = 200;
   private scrollSpeed = 0.2;
   private started: boolean;
-  private rocks = new Array<Rock>();
+  private rocks: Array<Rock>;
+  private text: Phaser.GameObjects.BitmapText;
 
   //rock spawn
   private rockSpawnTime = 1700;
@@ -37,15 +38,18 @@ export class MainScene extends Phaser.Scene {
     this.load.image("ground", "./assets/PNG/groundGrass.png");
     this.load.image("filler", "./assets/transparent-pixel.png");
     this.load.image("rock", "./assets/PNG/rockGrass.png");
+    this.load.bitmapFont("mainFont", "./assets/Font/main_0.png", "./assets/Font/main.fnt");
   }
 
   create(): void {
     this.started = false;
+    this.rocks = new Array<Rock>();
 
     this.background = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "background");
     this.height = this.cameras.main.centerY * 2;
     this.width = this.cameras.main.centerX * 2;
 
+    //plane
     let planeAnim = this.anims.create({
       key: 'fly',
       frames: this.anims.generateFrameNumbers('plane', null),
@@ -81,18 +85,24 @@ export class MainScene extends Phaser.Scene {
       this.scene.restart();
     });
 
+    this.text = this.add.bitmapText(this.cameras.main.centerX, this.cameras.main.centerY / 2, "mainFont", "TAPPY PLANE");
+    this.text.x = this.cameras.main.centerX - this.text.width / 2;
+
+    //input setup
     this.input.on('pointerdown', (pointer) => {
       if (!this.started) {
         this.start();
         this.started = true;
       }
       (this.plane.body as Physics.Arcade.Body).setVelocityY(-this.jumpVel)
-    })
+    });
   }
 
   start() {
     (this.plane.body as Physics.Arcade.Body).setAllowGravity(true);
     this.plane.play("fly");
+    this.text.text = "0";
+    this.text.x = this.cameras.main.centerX - this.text.width / 2;
   }
 
   update(time: number, delta: number): void {
@@ -106,11 +116,17 @@ export class MainScene extends Phaser.Scene {
 
       this.rockSpawnCountdown -= delta;
       if (this.rockSpawnCountdown <= 0) {
-        let rock = new Rock({ scene: this, upper: this.upperRock, scrollSpeed: this.scrollSpeed });
+        let rock = new Rock({ scene: this, 
+          upper: this.upperRock, 
+          scrollSpeed: this.scrollSpeed, 
+          plane: this.plane, 
+          passedFunc: () => this.text.text = (parseInt(this.text.text) + 1).toString()});
         this.rocks.push(rock);
         this.upperRock = !this.upperRock;
         this.rockSpawnCountdown = this.rockSpawnTime + Math.random() * this.rockSpawnTimeVariation;
-        this.physics.add.collider(this.plane, rock, () => this.scene.restart());
+        this.physics.add.collider(this.plane, rock, () => {
+          this.scene.restart();
+        });
       }
     }
   }

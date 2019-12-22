@@ -2,7 +2,10 @@ import { Physics } from "phaser";
 
 export class Rock extends Phaser.GameObjects.Sprite {
     private _upper = false;
-    public scrollSpeed: number;
+    private scrollSpeed: number;
+    private plane: Phaser.GameObjects.Sprite;
+    private passed = false;
+    private passedFunc: Function;
 
     get upper(): boolean {
         return this._upper;
@@ -23,10 +26,18 @@ export class Rock extends Phaser.GameObjects.Sprite {
         (config.scene as Phaser.Scene).physics.add.existing(this);
         (this.body as Physics.Arcade.Body).setAllowGravity(false)
             .setSize(this.width / 2, this.height);
+        this.plane = config.plane;
+        this.passedFunc = config.passedFunc;
     }
 
     update(time: number, delta: number) {
         this.x -= this.scrollSpeed * delta;
+
+        if(!this.passed && this.plane.x > this.x){
+            this.passed = true;
+            this.passedFunc();
+        }
+
         if (this.x <= -this.width) {
             this.destroy();
         }
