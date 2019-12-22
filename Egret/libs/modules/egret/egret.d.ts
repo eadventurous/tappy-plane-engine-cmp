@@ -9888,10 +9888,8 @@ declare namespace egret.sys {
          * @private
          */
         private frameInterval;
-        /**
-         * @private
-         */
-        private frameDeltaTime;
+        
+        frameDeltaTime: number;
         /**
          * @private
          */

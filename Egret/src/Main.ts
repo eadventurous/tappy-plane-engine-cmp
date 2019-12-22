@@ -38,12 +38,14 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private onAddToStage(event: egret.Event) {
-
         egret.lifecycle.addLifecycleListener((context) => {
-            // custom lifecycle plugin
-
             context.onUpdate = () => {
-            //console.log(egret.ticker.)
+                let delta = egret.ticker.frameDeltaTime;
+                console.log(delta);
+
+                this._backgrounds.forEach(bg => {
+                    bg.x -= 5;
+                });
             }
         })
 
@@ -101,7 +103,6 @@ class Main extends egret.DisplayObjectContainer {
             bg.height = stageH;
             bg.width = stageW;
             bg.x = bg.width * i;
-            console.log(i);
         });
 
         // let line = new egret.Shape();

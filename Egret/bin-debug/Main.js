@@ -80,10 +80,15 @@ var Main = (function (_super) {
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
+        var _this = this;
+        egret.ticker.$frameRate = 60;
         egret.lifecycle.addLifecycleListener(function (context) {
-            // custom lifecycle plugin
             context.onUpdate = function () {
-                //console.log(egret.ticker.)
+                var delta = egret.ticker.frameDeltaTime;
+                console.log(delta);
+                _this._backgrounds.forEach(function (bg) {
+                    bg.x -= 5;
+                });
             };
         });
         egret.lifecycle.onPause = function () {
@@ -157,7 +162,6 @@ var Main = (function (_super) {
             bg.height = stageH;
             bg.width = stageW;
             bg.x = bg.width * i;
-            console.log(i);
         });
         // let line = new egret.Shape();
         // line.graphics.lineStyle(2, 0xffffff);
