@@ -48,6 +48,7 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super.call(this) || this;
         _this._backgrounds = new Array();
+        _this._player = new Plane();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -59,6 +60,7 @@ var Main = (function (_super) {
                     bg.x -= Main.HORIZONTAL_SPEED;
                 });
                 _this.loopBackgrounds();
+                _this._player.update();
             };
         });
         egret.lifecycle.onPause = function () {
@@ -70,6 +72,10 @@ var Main = (function (_super) {
         this.runGame().catch(function (e) {
             console.log(e);
         });
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+    };
+    Main.prototype.onClick = function (evt) {
+        this._player.jump();
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -129,15 +135,17 @@ var Main = (function (_super) {
         this._backgrounds.forEach(function (bg, i) {
             _this.addChild(bg);
         });
+        this._player.init("planeGreen1_png", this.stage);
+        this.addChild(this._player);
     };
     Main.prototype.createBackground = function (i) {
-        var bg = this.createBitmapByName("background_png");
+        var bg = Main.createBitmapByName("background_png");
         bg.x = bg.width * i;
         return bg;
     };
     Main.prototype.createTopBackgroundAddition = function (i) {
         var stageW = this.stage.stageWidth;
-        var bg = this.createBitmapByName("groundGrass_png");
+        var bg = Main.createBitmapByName("groundGrass_png");
         bg.x = bg.width * i;
         bg.scaleY = -1;
         bg.y = bg.height;
@@ -145,16 +153,20 @@ var Main = (function (_super) {
     };
     Main.prototype.createBottomBackgroundAddition = function (i) {
         var stageH = this.stage.stageHeight;
-        var bg = this.createBitmapByName("groundGrass_png");
+        var bg = Main.createBitmapByName("groundGrass_png");
         bg.x = bg.width * i;
         bg.y = stageH - bg.height;
         return bg;
+    };
+    Main.prototype.createObstacle = function () {
+        var obs = new Obstacle("rockGrass_png");
+        return obs;
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
      */
-    Main.prototype.createBitmapByName = function (name) {
+    Main.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
@@ -163,10 +175,14 @@ var Main = (function (_super) {
     Main.prototype.loopBackgrounds = function () {
         this._backgrounds.forEach(function (bg, i) {
             if (bg.x <= -bg.width) {
+                // Moving background forward to a double of its width
+                // Only works when background is wider than the screen
+                // Also possible to accumulate integral error (constant additions instead of hard assignment)
                 bg.x += bg.width * 2;
             }
         });
     };
+    Main.GRAVITY = 0.2;
     Main.HORIZONTAL_SPEED = 5;
     return Main;
 }(egret.DisplayObjectContainer));

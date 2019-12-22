@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,background_png,groundGrass_png,rockGrass_png",
+			"keys": "description_json,background_png,groundGrass_png,rockGrass_png,planeGreen1_png",
 			"name": "preload"
 		}
 	],
@@ -25,6 +25,11 @@
 			"url": "assets/rockGrass.png",
 			"type": "image",
 			"name": "rockGrass_png"
+		},
+		{
+			"url": "assets/planeGreen1.png",
+			"type": "image",
+			"name": "planeGreen1_png"
 		}
 	]
 }
