@@ -1,0 +1,30 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,background_png,groundGrass_png,rockGrass_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/background.png",
+			"type": "image",
+			"name": "background_png"
+		},
+		{
+			"url": "assets/groundGrass.png",
+			"type": "image",
+			"name": "groundGrass_png"
+		},
+		{
+			"url": "assets/rockGrass.png",
+			"type": "image",
+			"name": "rockGrass_png"
+		}
+	]
+}
