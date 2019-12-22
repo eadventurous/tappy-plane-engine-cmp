@@ -1,34 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-present, Egret Technology.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
-
 class Main extends egret.DisplayObjectContainer {
 
+    static readonly HORIZONTAL_SPEED = 5;
+    
     private _backgrounds:egret.Bitmap[];
 
     public constructor() {
@@ -40,12 +13,12 @@ class Main extends egret.DisplayObjectContainer {
     private onAddToStage(event: egret.Event) {
         egret.lifecycle.addLifecycleListener((context) => {
             context.onUpdate = () => {
-                let delta = egret.ticker.frameDeltaTime;
-                console.log(delta);
 
                 this._backgrounds.forEach(bg => {
-                    bg.x -= 5;
+                    bg.x -= Main.HORIZONTAL_SPEED;
                 });
+                this.loopBackgrounds();
+
             }
         })
 
@@ -88,35 +61,42 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene() {
-        this._backgrounds.push(this.createBackground());
-        this._backgrounds.push(this.createBackground());
-        
-        let stageW = this.stage.stageWidth;
-        let stageH = this.stage.stageHeight;
-
-        console.log(`${stageH} : ${stageW}`);
-        //background.height = stageH;
-        //background.width = stageW;
+        this._backgrounds.push(this.createBackground(0));
+        this._backgrounds.push(this.createBackground(1));
+        this._backgrounds.push(this.createTopBackgroundAddition(0));
+        this._backgrounds.push(this.createTopBackgroundAddition(1));
+        this._backgrounds.push(this.createBottomBackgroundAddition(0));
+        this._backgrounds.push(this.createBottomBackgroundAddition(1));
 
         this._backgrounds.forEach((bg, i) => {
             this.addChild(bg);
-            bg.height = stageH;
-            bg.width = stageW;
-            bg.x = bg.width * i;
         });
-
-        // let line = new egret.Shape();
-        // line.graphics.lineStyle(2, 0xffffff);
-        // line.graphics.moveTo(0, 0);
-        // line.graphics.lineTo(0, 117);
-        // line.graphics.endFill();
-        // line.x = 172;
-        // line.y = 61;
-        // this.addChild(line);
     }
 
-    private createBackground() : egret.Bitmap{
-        return this.createBitmapByName("background_png");
+    private createBackground(i: number) : egret.Bitmap {
+        let bg = this.createBitmapByName("background_png");
+        bg.x = bg.width * i;
+
+        return bg;
+    }
+
+    private createTopBackgroundAddition(i: number) : egret.Bitmap {
+        let stageW = this.stage.stageWidth;
+        
+        let bg = this.createBitmapByName("groundGrass_png");
+        bg.x = bg.width * i;
+        bg.scaleY = -1;
+        bg.y = bg.height;
+        return bg;
+    }
+
+    private createBottomBackgroundAddition(i: number) : egret.Bitmap {
+        let stageH = this.stage.stageHeight;
+        
+        let bg = this.createBitmapByName("groundGrass_png");
+        bg.x = bg.width * i;
+        bg.y = stageH - bg.height;
+        return bg;
     }
 
     /**
@@ -130,33 +110,14 @@ class Main extends egret.DisplayObjectContainer {
         return result;
     }
 
-    /**
-     * 描述文件加载成功，开始播放动画
-     * Description file loading is successful, start to play the animation
-     */
-    private startAnimation(result: string[]) {
-        let parser = new egret.HtmlTextParser();
-
-        let textflowArr = result.map(text => parser.parse(text));
-        let textfield = this.textfield;
-        let count = -1;
-        let change = () => {
-            count++;
-            if (count >= textflowArr.length) {
-                count = 0;
+    private loopBackgrounds() {
+        this._backgrounds.forEach((bg, i) => {
+            if(bg.x <= -bg.width) {
+                // Moving background forward to a double of its width
+                // Only works when background is wider than the screen
+                // Also possible to accumulate integral error (constant additions instead of hard assignment)
+                bg.x += bg.width * 2;
             }
-            let textFlow = textflowArr[count];
-
-            // 切换描述内容
-            // Switch to described content
-            textfield.textFlow = textFlow;
-            let tw = egret.Tween.get(textfield);
-            tw.to({ "alpha": 1 }, 200);
-            tw.wait(2000);
-            tw.to({ "alpha": 0 }, 200);
-            tw.call(change, this);
-        };
-
-        change();
+        });
     }
 }

@@ -1,31 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-present, Egret Technology.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -81,14 +53,12 @@ var Main = (function (_super) {
     }
     Main.prototype.onAddToStage = function (event) {
         var _this = this;
-        egret.ticker.$frameRate = 60;
         egret.lifecycle.addLifecycleListener(function (context) {
             context.onUpdate = function () {
-                var delta = egret.ticker.frameDeltaTime;
-                console.log(delta);
                 _this._backgrounds.forEach(function (bg) {
-                    bg.x -= 5;
+                    bg.x -= Main.HORIZONTAL_SPEED;
                 });
+                _this.loopBackgrounds();
             };
         });
         egret.lifecycle.onPause = function () {
@@ -150,30 +120,35 @@ var Main = (function (_super) {
      */
     Main.prototype.createGameScene = function () {
         var _this = this;
-        this._backgrounds.push(this.createBackground());
-        this._backgrounds.push(this.createBackground());
-        var stageW = this.stage.stageWidth;
-        var stageH = this.stage.stageHeight;
-        console.log(stageH + " : " + stageW);
-        //background.height = stageH;
-        //background.width = stageW;
+        this._backgrounds.push(this.createBackground(0));
+        this._backgrounds.push(this.createBackground(1));
+        this._backgrounds.push(this.createTopBackgroundAddition(0));
+        this._backgrounds.push(this.createTopBackgroundAddition(1));
+        this._backgrounds.push(this.createBottomBackgroundAddition(0));
+        this._backgrounds.push(this.createBottomBackgroundAddition(1));
         this._backgrounds.forEach(function (bg, i) {
             _this.addChild(bg);
-            bg.height = stageH;
-            bg.width = stageW;
-            bg.x = bg.width * i;
         });
-        // let line = new egret.Shape();
-        // line.graphics.lineStyle(2, 0xffffff);
-        // line.graphics.moveTo(0, 0);
-        // line.graphics.lineTo(0, 117);
-        // line.graphics.endFill();
-        // line.x = 172;
-        // line.y = 61;
-        // this.addChild(line);
     };
-    Main.prototype.createBackground = function () {
-        return this.createBitmapByName("background_png");
+    Main.prototype.createBackground = function (i) {
+        var bg = this.createBitmapByName("background_png");
+        bg.x = bg.width * i;
+        return bg;
+    };
+    Main.prototype.createTopBackgroundAddition = function (i) {
+        var stageW = this.stage.stageWidth;
+        var bg = this.createBitmapByName("groundGrass_png");
+        bg.x = bg.width * i;
+        bg.scaleY = -1;
+        bg.y = bg.height;
+        return bg;
+    };
+    Main.prototype.createBottomBackgroundAddition = function (i) {
+        var stageH = this.stage.stageHeight;
+        var bg = this.createBitmapByName("groundGrass_png");
+        bg.x = bg.width * i;
+        bg.y = stageH - bg.height;
+        return bg;
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -185,33 +160,14 @@ var Main = (function (_super) {
         result.texture = texture;
         return result;
     };
-    /**
-     * 描述文件加载成功，开始播放动画
-     * Description file loading is successful, start to play the animation
-     */
-    Main.prototype.startAnimation = function (result) {
-        var _this = this;
-        var parser = new egret.HtmlTextParser();
-        var textflowArr = result.map(function (text) { return parser.parse(text); });
-        var textfield = this.textfield;
-        var count = -1;
-        var change = function () {
-            count++;
-            if (count >= textflowArr.length) {
-                count = 0;
+    Main.prototype.loopBackgrounds = function () {
+        this._backgrounds.forEach(function (bg, i) {
+            if (bg.x <= -bg.width) {
+                bg.x += bg.width * 2;
             }
-            var textFlow = textflowArr[count];
-            // 切换描述内容
-            // Switch to described content
-            textfield.textFlow = textFlow;
-            var tw = egret.Tween.get(textfield);
-            tw.to({ "alpha": 1 }, 200);
-            tw.wait(2000);
-            tw.to({ "alpha": 0 }, 200);
-            tw.call(change, _this);
-        };
-        change();
+        });
     };
+    Main.HORIZONTAL_SPEED = 5;
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
