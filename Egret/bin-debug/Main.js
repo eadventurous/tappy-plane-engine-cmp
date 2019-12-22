@@ -49,21 +49,19 @@ var Main = (function (_super) {
         var _this = _super.call(this) || this;
         _this._backgrounds = new Array();
         _this._player = new Plane();
+        _this._obstacles = new Array();
         _this._scoreText = new ScoreText();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
+    Main.prototype.changeState = function (state) {
+        if (this._state != null) {
+            this._state.exit();
+        }
+        this._state = state;
+        state.enter();
+    };
     Main.prototype.onAddToStage = function (event) {
-        var _this = this;
-        egret.lifecycle.addLifecycleListener(function (context) {
-            context.onUpdate = function () {
-                _this._backgrounds.forEach(function (bg) {
-                    bg.x -= Main.HORIZONTAL_SPEED;
-                });
-                _this.loopBackgrounds();
-                _this._player.update();
-            };
-        });
         egret.lifecycle.onPause = function () {
             egret.ticker.pause();
         };
@@ -76,7 +74,7 @@ var Main = (function (_super) {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     };
     Main.prototype.onClick = function (evt) {
-        this._player.jump();
+        this._state.onClick();
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -136,13 +134,22 @@ var Main = (function (_super) {
         this._backgrounds.forEach(function (bg, i) {
             _this.addChild(bg);
         });
-        this._player.init("planeGreen1_png", this.stage);
+        this._player.init("planeGreen1_png", this);
         this.addChild(this._player);
         var st = this._scoreText;
         st.x = this.stage.stageWidth * 0.5;
         st.y = 25;
         st.setNumber(0);
         this.addChild(st);
+        for (var i = 0; i < 15; i++) {
+            var obs = this.createObstacle();
+        }
+        this.changeState(new PreGameState(this));
+        egret.lifecycle.addLifecycleListener(function (context) {
+            context.onUpdate = function () {
+                _this._state.update();
+            };
+        });
     };
     Main.prototype.createBackground = function (i) {
         var bg = Main.createBitmapByName("background_png");
@@ -165,7 +172,7 @@ var Main = (function (_super) {
         return bg;
     };
     Main.prototype.createObstacle = function () {
-        var obs = new Obstacle("rockGrass_png");
+        var obs = new Obstacle("rockGrass_png", this);
         return obs;
     };
     /**

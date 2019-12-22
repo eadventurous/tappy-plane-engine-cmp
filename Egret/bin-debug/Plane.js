@@ -13,24 +13,26 @@ var Plane = (function (_super) {
     function Plane() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Plane.prototype.init = function (imageName, stage) {
+    Plane.prototype.init = function (imageName, main) {
         this._initialized = true;
-        this._stage = stage;
+        this._main = main;
         this._ySpeed = 0;
         var img = Main.createBitmapByName(imageName);
         img.anchorOffsetX = img.width * 0.5;
         img.anchorOffsetY = img.height * 0.5;
-        this.x = this._stage.stageWidth * 0.5;
-        this.y = this._stage.stageHeight * 0.5;
-        console.log(this.x + " " + this.y);
+        this.x = this._main.stage.stageWidth * 0.5;
+        this.y = this._main.stage.stageHeight * 0.5;
         this._image = img;
         this.addChild(this._image);
     };
     Plane.prototype.update = function () {
         if (!this._initialized)
             return;
-        this._ySpeed -= Main.GRAVITY;
         this.y -= this._ySpeed;
+        if (this.y < 70 || this.y > this._main.stage.stageHeight - 70) {
+            this._main.changeState(new EndState(this._main));
+        }
+        this._ySpeed -= Main.GRAVITY;
     };
     Plane.prototype.jump = function () {
         var JUMP_SPEED = 5;

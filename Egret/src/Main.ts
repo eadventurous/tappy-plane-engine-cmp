@@ -3,31 +3,33 @@ class Main extends egret.DisplayObjectContainer {
     static readonly GRAVITY = 0.2;
     static readonly HORIZONTAL_SPEED = 5;
     
-    private _backgrounds : egret.DisplayObject[];
-    private _player : Plane;
-    private _scoreText : ScoreText;
+    public _backgrounds : egret.DisplayObject[];
+    public _obstacles : Obstacle[];
+    public _player : Plane;
+    public _scoreText : ScoreText;
+    public _score : Number;
+
+    private _state : State;
 
     public constructor() {
         super();
         this._backgrounds = new Array();
         this._player = new Plane();
+        this._obstacles = new Array();
         this._scoreText = new ScoreText();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
+    public changeState(state : State) {
+        if(this._state != null) {
+            this._state.exit();
+        }
+
+        this._state = state;
+        state.enter();
+    }
+
     private onAddToStage(event: egret.Event) {
-        egret.lifecycle.addLifecycleListener((context) => {
-            context.onUpdate = () => {
-
-                this._backgrounds.forEach(bg => {
-                    bg.x -= Main.HORIZONTAL_SPEED;
-                });
-                this.loopBackgrounds();
-
-                this._player.update();
-            }
-        })
-
         egret.lifecycle.onPause = () => {
             egret.ticker.pause();
         }
@@ -43,8 +45,8 @@ class Main extends egret.DisplayObjectContainer {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     }
 
-    private onClick(evt:egret.TouchEvent) : void{
-        this._player.jump();
+    private onClick(evt:egret.TouchEvent) : void {
+        this._state.onClick();
     }
 
     private async runGame() {
@@ -73,6 +75,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene() {
+
         this._backgrounds.push(this.createBackground(0));
         this._backgrounds.push(this.createBackground(1));
         this._backgrounds.push(this.createTopBackgroundAddition(0));
@@ -84,7 +87,7 @@ class Main extends egret.DisplayObjectContainer {
             this.addChild(bg);
         });
 
-        this._player.init("planeGreen1_png", this.stage);
+        this._player.init("planeGreen1_png", this);
         this.addChild(this._player);
 
         let st = this._scoreText;
@@ -92,6 +95,18 @@ class Main extends egret.DisplayObjectContainer {
         st.y = 25;
         st.setNumber(0);
         this.addChild(st);
+
+        for(let i = 0; i < 15; i++) {
+            let obs = this.createObstacle();
+        }
+
+        this.changeState(new PreGameState(this));
+
+        egret.lifecycle.addLifecycleListener((context) => {
+            context.onUpdate = () => {
+                this._state.update();
+            }
+        });
     }
 
     private createBackground(i: number) : egret.Bitmap {
@@ -121,7 +136,7 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private createObstacle() : Obstacle {
-        let obs = new Obstacle("rockGrass_png");
+        let obs = new Obstacle("rockGrass_png", this);
         return obs;
     }
 
@@ -136,7 +151,7 @@ class Main extends egret.DisplayObjectContainer {
         return result;
     }
 
-    private loopBackgrounds() {
+    public loopBackgrounds() {
         this._backgrounds.forEach((bg, i) => {
             if(bg.x <= -bg.width) {
                 // Moving background forward to a double of its width

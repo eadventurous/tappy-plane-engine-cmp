@@ -10,12 +10,23 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
-    function Obstacle(imageName) {
+    function Obstacle(imageName, main) {
         var _this = _super.call(this) || this;
         var img = Main.createBitmapByName(imageName);
-        img.anchorOffsetX = img.width * 0.5;
-        img.anchorOffsetY = img.height - 10;
+        //img.scaleY = -1;
+        //img.anchorOffsetX = img.width * 0.5;
+        //img.anchorOffsetY = img.height - 10;
+        var pb = new egret.Shape();
+        pb.graphics.beginFill(0x2ecc71);
+        pb.graphics.drawRect(img.width, 0, 10, main.stage.stageHeight);
+        pb.graphics.endFill();
+        var hb = new egret.Shape();
+        hb.graphics.beginFill(0xe74c3c);
+        hb.graphics.drawRect(0, 0, img.width, img.height);
+        hb.graphics.endFill();
         _this._image = img;
+        _this.addChild(pb);
+        _this.addChild(hb);
         _this.addChild(_this._image);
         return _this;
     }

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,background_png,groundGrass_png,rockGrass_png,planeGreen1_png,number0_png,number1_png,number2_png,number3_png,number4_png,number5_png,number6_png,number7_png,number8_png,number9_png",
+			"keys": "description_json,background_png,groundGrass_png,rockGrass_png,planeGreen1_png,number0_png,number1_png,number2_png,number3_png,number4_png,number5_png,number6_png,number7_png,number8_png,number9_png,textGetReady_png,textGameOver_png",
 			"name": "preload"
 		}
 	],
@@ -80,6 +80,16 @@
 			"url": "assets/numbers/number9.png",
 			"type": "image",
 			"name": "number9_png"
+		},
+		{
+			"url": "assets/textGameOver.png",
+			"type": "image",
+			"name": "textGameOver_png"
+		},
+		{
+			"url": "assets/textGetReady.png",
+			"type": "image",
+			"name": "textGetReady_png"
 		}
 	]
 }
