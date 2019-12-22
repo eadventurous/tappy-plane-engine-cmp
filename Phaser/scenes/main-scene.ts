@@ -87,6 +87,7 @@ export class MainScene extends Phaser.Scene {
 
     this.text = this.add.bitmapText(this.cameras.main.centerX, this.cameras.main.centerY / 2, "mainFont", "TAPPY PLANE");
     this.text.x = this.cameras.main.centerX - this.text.width / 2;
+    this.text.setDepth(1);
 
     //input setup
     this.input.on('pointerdown', (pointer) => {
