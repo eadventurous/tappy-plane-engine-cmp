@@ -30,6 +30,8 @@ For **MelonJS** run `npm install` in the MelonJS project folder. Then install *g
 
 For **LayaBox** download [LayaAir IDE](https://ldc2.layabox.com/layadownload/?language=en&type=layaairide-LayaAir%20IDE%202.3.0beta). Open the `LayaBox` folder with it and build the project for web.
 
+For **Phaser** navigate to the phaser directory. Run `npm install` in the console and build with `npm run-script build`.
+
 3. Navigate to the cloned repository folder
 ```bash
 $ cd tappy-plane-engine-cmp
@@ -51,6 +53,7 @@ Example urls:
 - **MelonJS** `http://127.0.0.1:8080/MelonJS/`
 - **PixiJS** `http://127.0.0.1:8080/PixiJS/`
 - **LayaBox** `http://127.0.0.1:8080/LayaBox/release/web/`
+- **Phaser** `http://127.0.0.1:8080/Phaser/`
 
 ## Special Thanks
 To Kenney.nl for [Tappy Plane Assets](https://www.kenney.nl/assets/tappy-plane)
