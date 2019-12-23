@@ -7,7 +7,7 @@ class Main extends egret.DisplayObjectContainer {
     public _obstacles : Obstacle[];
     public _player : Plane;
     public _scoreText : ScoreText;
-    public _score : Number;
+    public _score : number;
 
     private _state : State;
 
@@ -17,6 +17,7 @@ class Main extends egret.DisplayObjectContainer {
         this._player = new Plane();
         this._obstacles = new Array();
         this._scoreText = new ScoreText();
+        this._score = 0;
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
@@ -96,10 +97,6 @@ class Main extends egret.DisplayObjectContainer {
         st.setNumber(0);
         this.addChild(st);
 
-        for(let i = 0; i < 15; i++) {
-            let obs = this.createObstacle();
-        }
-
         this.changeState(new PreGameState(this));
 
         egret.lifecycle.addLifecycleListener((context) => {
@@ -160,5 +157,14 @@ class Main extends egret.DisplayObjectContainer {
                 bg.x += bg.width * 2;
             }
         });
+    }
+
+    public updateScoreText() {
+        this._scoreText.setNumber(this._score);
+    }
+
+    public increaseScore() : void {
+        this._score += 1;
+        this.updateScoreText();
     }
 }

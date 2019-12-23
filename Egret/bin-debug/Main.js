@@ -51,6 +51,7 @@ var Main = (function (_super) {
         _this._player = new Plane();
         _this._obstacles = new Array();
         _this._scoreText = new ScoreText();
+        _this._score = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -141,9 +142,6 @@ var Main = (function (_super) {
         st.y = 25;
         st.setNumber(0);
         this.addChild(st);
-        for (var i = 0; i < 15; i++) {
-            var obs = this.createObstacle();
-        }
         this.changeState(new PreGameState(this));
         egret.lifecycle.addLifecycleListener(function (context) {
             context.onUpdate = function () {
@@ -194,6 +192,13 @@ var Main = (function (_super) {
                 bg.x += bg.width * 2;
             }
         });
+    };
+    Main.prototype.updateScoreText = function () {
+        this._scoreText.setNumber(this._score);
+    };
+    Main.prototype.increaseScore = function () {
+        this._score += 1;
+        this.updateScoreText();
     };
     Main.GRAVITY = 0.2;
     Main.HORIZONTAL_SPEED = 5;

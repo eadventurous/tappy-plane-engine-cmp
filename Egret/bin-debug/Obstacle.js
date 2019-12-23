@@ -12,24 +12,36 @@ var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
     function Obstacle(imageName, main) {
         var _this = _super.call(this) || this;
+        _this._alreadyHitOrPassed = false;
         var img = Main.createBitmapByName(imageName);
-        //img.scaleY = -1;
-        //img.anchorOffsetX = img.width * 0.5;
-        //img.anchorOffsetY = img.height - 10;
-        var pb = new egret.Shape();
-        pb.graphics.beginFill(0x2ecc71);
-        pb.graphics.drawRect(img.width, 0, 10, main.stage.stageHeight);
-        pb.graphics.endFill();
         var hb = new egret.Shape();
         hb.graphics.beginFill(0xe74c3c);
         hb.graphics.drawRect(0, 0, img.width, img.height);
         hb.graphics.endFill();
+        _this._hitbox = hb;
         _this._image = img;
-        _this.addChild(pb);
+        _this.x = main.stage.stageWidth;
+        if (Math.random() > 0.5) {
+            _this.scaleY = -1;
+            _this.y = img.height;
+        }
+        else {
+            _this.y = main.stage.stageHeight - img.height;
+        }
+        hb.alpha = 0;
         _this.addChild(hb);
         _this.addChild(_this._image);
         return _this;
     }
+    Obstacle.prototype.checkPass = function (x) {
+        return !this._alreadyHitOrPassed && x > this.x;
+    };
+    Obstacle.prototype.checkCollision = function (x, y) {
+        return this._hitbox.hitTestPoint(x, y, false);
+    };
+    Obstacle.prototype.setAsUsed = function () {
+        this._alreadyHitOrPassed = true;
+    };
     return Obstacle;
 }(egret.DisplayObjectContainer));
 __reflect(Obstacle.prototype, "Obstacle");
