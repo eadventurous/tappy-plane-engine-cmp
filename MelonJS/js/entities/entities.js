@@ -157,6 +157,10 @@ game.RockEntity = me.Entity.extend({
             game.playScreen.textObj.text = game.data.score;
         }
 
+        if(this.pos.x + this.width < 0){
+            this.ancestor.removeChild(this);
+        }
+
         return (this._super(me.Entity, 'update', [time]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 });
