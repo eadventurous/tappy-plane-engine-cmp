@@ -50,7 +50,7 @@ Example urls:
 
 - **CreateJS** `http://127.0.0.1:8080/CreateJS/`
 - **GDevelop** `http://127.0.0.1:8080/GDevelop/Build/`
-- **MelonJS** `http://127.0.0.1:8080/MelonJS/`
+- **MelonJS** `http://127.0.0.1:8080/MelonJS/build/`
 - **PixiJS** `http://127.0.0.1:8080/PixiJS/`
 - **LayaBox** `http://127.0.0.1:8080/LayaBox/release/web/`
 - **Phaser** `http://127.0.0.1:8080/Phaser/`
