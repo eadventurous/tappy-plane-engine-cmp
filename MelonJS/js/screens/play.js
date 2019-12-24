@@ -26,7 +26,7 @@ game.PlayScreen = me.ScreenObject.extend({
             init : function () {
                 this._super(me.Renderable, "init", [0, 0, me.game.viewport.width, me.game.viewport.height]);
                 this.text = "TAPPY PLANE";
-                let textColor = new me.Color(82, 158, 222);
+                var textColor = new me.Color(82, 158, 222);
                 this.font = new me.Font("arial", 42, textColor, "center");
                 this.alwaysUpdate = true;
             },
@@ -41,9 +41,9 @@ game.PlayScreen = me.ScreenObject.extend({
         this.spawn = true;
     },
 
-    spawnRock() {
+    spawnRock: function() {
         if (!this.spawn) return;
-        let rock = me.pool.pull("rockObj", game.data.upperRock);
+        var rock = me.pool.pull("rockObj", game.data.upperRock);
         me.game.world.addChild(rock, 5);
         game.data.upperRock = !game.data.upperRock;
         me.timer.setTimeout(this.spawnRock.bind(this), game.data.rockSpawnTime + Math.random() * game.data.rockSpawnFluct);
